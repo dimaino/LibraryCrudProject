@@ -50,7 +50,15 @@ public class TestStuuf {
 //		System.out.println(bDAO.getBookByISBN("1234567896"));
 //		Book book = new Book("9934567896", "Some Book", "Stuff about some book!", false, new Date(System.currentTimeMillis()));
 //		System.out.println(bDAO.addBook(book));
+//		System.out.println(bDAO.getAllBooks());
+//		System.out.println(bDAO.deleteBook("1234567896"));
+//		System.out.println(bDAO.getBookByISBN("9934567896"));
+//		Book book = bDAO.getBookByISBN("9934567896");
+//		book.setDescr("NEW DESCRIPTION");
+//		book.setTitle("THE TITTLE");
+//		System.out.println(bDAO.updateBook(book));
+//		System.out.println(bDAO.getBookByISBN("9934567896"));
+//		System.out.println(bDAO.getAllBooks());
 		
-		System.out.println(bDAO.getAllBooks());
 	}
 }

@@ -23,8 +23,8 @@ public class BookDaoImp implements BookDao {
 		INSERT_BOOK("INSERT INTO book(isbn, title, descr, rented, added_to_library) VALUES(?, ?, ?, ?, ?)"),
 		DELETE_BOOK("DELETE FROM book WHERE isbn = ?"),
 		UPDATE_BOOK("UPDATE book SET title = ?, descr = ? WHERE isbn = ?"),
-		RETURN_BOOK("UPDATE book SET rented = false WHERE isbn = ?"); // NEEDS TO WORK WITH CHECKOUTBOOKS TABLE
-		
+		RETURN_BOOK("UPDATE book SET rented = false WHERE isbn = ?"), // NEEDS TO WORK WITH CHECKOUTBOOKS TABLE
+		CHECKOUT_BOOK("UPDATE book SET rented = true WHERE isbn = ?"); // NEEDS TO WORK WITH CHECKOUTBOOKS TABLE
 		
 		private final String statement;
 
@@ -113,20 +113,65 @@ public class BookDaoImp implements BookDao {
 
 	@Override
 	public boolean deleteBook(String isbn) {
-		// TODO Auto-generated method stub
+		try (PreparedStatement pstmt = conn.prepareStatement(SqlStatements.DELETE_BOOK.getStatement())) {
+
+			pstmt.setString(1, isbn);
+
+			if (pstmt.executeUpdate() > 0) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return false;
 	}
 
 	@Override
 	public boolean updateBook(Book book) {
-		// TODO Auto-generated method stub
+		try (PreparedStatement pstmt = conn.prepareStatement(SqlStatements.UPDATE_BOOK.getStatement())) {
+
+			pstmt.setString(1, book.getTitle());
+			pstmt.setString(2, book.getDescr());
+			pstmt.setString(3, book.getIsbn());
+
+			if (pstmt.executeUpdate() > 0) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return false;
 	}
 
 	@Override
-	public boolean returnBook() {
-		// TODO Auto-generated method stub
+	public boolean returnBook(Book book) {
+		try (PreparedStatement pstmt = conn.prepareStatement(SqlStatements.RETURN_BOOK.getStatement())) {
+
+			pstmt.setString(1, book.getIsbn());
+
+			if (pstmt.executeUpdate() > 0) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return false;
 	}
+
+	@Override
+	public boolean checkoutBook(Book book) {
+		try (PreparedStatement pstmt = conn.prepareStatement(SqlStatements.CHECKOUT_BOOK.getStatement())) {
+
+			pstmt.setString(1, book.getIsbn());
+
+			if (pstmt.executeUpdate() > 0) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
 
 }
