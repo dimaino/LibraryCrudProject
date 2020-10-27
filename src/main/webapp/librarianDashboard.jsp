@@ -1,5 +1,14 @@
 <%@ include file= "header.jsp" %>
 
-<h1>LibrarianDashboard</h1>
+<div class="container">
+	Library Dashboard
+    <div class="row">
+        <div class="container">
+           Test
+        </div>
+    </div>
+
+</div>
+
 
 <%@ include file= "footer.jsp" %>
