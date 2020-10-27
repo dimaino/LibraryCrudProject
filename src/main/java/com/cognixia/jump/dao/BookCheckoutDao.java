@@ -11,4 +11,7 @@ public interface BookCheckoutDao {
 	public boolean addBookCheckout(BookCheckout bookCheckout);
 	public boolean deleteBookCheckout(int id);
 	public boolean updateBookCheckout(BookCheckout bookCheckout);
+	
+	public List<BookCheckout> viewPastCheckedOutBooks();
+	public List<BookCheckout> viewCurrentCheckedOutBooks();
 }

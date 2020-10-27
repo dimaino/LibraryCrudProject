@@ -7,8 +7,10 @@ import com.cognixia.jump.model.Book;
 public interface BookDao {
 	
 	public List<Book> getAllBooks();
-	public Book getBookById(int id);
+	public Book getBookByISBN(String isbn);
 	public boolean addBook(Book book);
-	public boolean deleteBook(int id);
+	public boolean deleteBook(String isbn);
 	public boolean updateBook(Book book);
+	
+	public boolean returnBook();
 }

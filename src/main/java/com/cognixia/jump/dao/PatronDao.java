@@ -11,4 +11,7 @@ public interface PatronDao {
 	public boolean addPatron(Patron patron);
 	public boolean deletePatron(int id);
 	public boolean updatePatron(Patron patron);
+
+	public boolean approveAccount(Patron patron);
+	public boolean freezeAccount(Patron patron);
 }

@@ -36,4 +36,16 @@ public class BookCheckoutDaoImp implements BookCheckoutDao {
 		return false;
 	}
 
+	@Override
+	public List<BookCheckout> viewPastCheckedOutBooks() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<BookCheckout> viewCurrentCheckedOutBooks() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
