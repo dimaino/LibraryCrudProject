@@ -78,6 +78,8 @@ public class LibrarianServlet extends HttpServlet {
 			case("/listPastBookCheckouts"):
 				getAllPastBookCheckouts(request,response);
 			break;
+			case("/list"):
+				
 			default:
 				response.sendRedirect("/");
 				break;
@@ -104,6 +106,7 @@ public class LibrarianServlet extends HttpServlet {
 		System.out.println("sent");
 		System.out.println("this is the request being sent"+request.getServerName()+request.getLocalPort());
 		System.out.println("this is the response being sent"+response.toString());
+		//dispatcher.forward(request, response);
 		
 		
 	}
@@ -118,6 +121,7 @@ public class LibrarianServlet extends HttpServlet {
 		System.out.println("sent");
 		System.out.println("this is the request being sent"+request.getServerName()+request.getLocalPort());
 		System.out.println("this is the response being sent"+response.toString()); 
+		//dispatcher.forward(request, response);
 		
 		
 	}
