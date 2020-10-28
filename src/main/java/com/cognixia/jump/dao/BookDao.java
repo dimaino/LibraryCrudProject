@@ -12,5 +12,6 @@ public interface BookDao {
 	public boolean deleteBook(String isbn);
 	public boolean updateBook(Book book);
 	
-	public boolean returnBook();
+	public boolean returnBook(Book book);
+	public boolean checkoutBook(Book book);
 }
