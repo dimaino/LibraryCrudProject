@@ -15,8 +15,19 @@
 <body>
 <div class="container-fluid p-3 my-3 bg-dark text-white">
 
-<div><center>Library Management System</center>
-    <button onclick="location.href='<%= request.getContextPath() %>/signupPage'" type="button" class="btn btn-info" style="float: right; margin-top: -30px; margin-right: 50px; color: black">Sign Up</button>
-    <button onclick="location.href='<%= request.getContextPath() %>/AccessServlet/signinPage'" type="button" class="btn btn-info" style="float: right;  margin-top: -30px; margin-right: 20px; color: black">Sign In</button>
-    </div></div>
+	<c:choose>
+		<c:when test="${pat == null}">
+			<div><center>Library Management System</center>
+    			<button onclick="location.href='<%= request.getContextPath() %>/AccessServlet/signupPage'" type="button" class="btn btn-info" style="float: right; margin-top: -30px; margin-right: 50px; color: black">Sign Up</button>
+    			<button onclick="location.href='<%= request.getContextPath() %>/AccessServlet/signinPage'" type="button" class="btn btn-info" style="float: right;  margin-top: -30px; margin-right: 20px; color: black">Sign In</button> 
+			</div></div>
+		</c:when>
+		<c:otherwise>
+			<div><center>Library Management System</center>
+			    <button onclick="location.href='<%= request.getContextPath() %>/AccessServlet/logout'" type="button" class="btn btn-info" style="float: right;  margin-top: -30px; margin-right: 20px; color: black">Log out</button> 
+			</div></div>
+		</c:otherwise>
+		
+	</c:choose>
+
   <br>

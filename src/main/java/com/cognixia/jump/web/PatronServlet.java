@@ -23,12 +23,9 @@ import com.cognixia.jump.dao.PatronDao;
 import com.cognixia.jump.dao.PatronDaoImp;
 import com.cognixia.jump.model.Book;
 
-//@WebServlet("/LibraryCrudProject/patronDashboard")
+@WebServlet("/PatronServlet/*")
 public class PatronServlet extends HttpServlet {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	private BookDao bookDao;
@@ -49,6 +46,7 @@ public class PatronServlet extends HttpServlet {
 	public void destroy() {
 		try {
 			ConnectionManager.getConnection().close();
+			session.invalidate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -59,20 +57,13 @@ public class PatronServlet extends HttpServlet {
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("HERE in Patron");
-		String action = request.getServletPath();
-		String fullUrl = request.getRequestURI();
+		String action = request.getPathInfo();
+		if(action == null) {
+			action = request.getServletPath();
+		}
 		System.out.println(action);
 		switch(action) {
 			case "/list":
-				System.out.println("LIST");
-				listBooks(request, response);
-				break;
-			case "/PatronServlet/list":
-				System.out.println("LIST");
-				listBooks(request, response);
-				break;
-			case "/LibraryCrudProject/PatronServlet/list":
 				System.out.println("LIST");
 				listBooks(request, response);
 				break;
@@ -80,48 +71,34 @@ public class PatronServlet extends HttpServlet {
 				System.out.println("checkout");
 				checkoutBook(request, response);
 				break;
-			case "/LibraryCrudProject/PatronServlet/return":
-				System.out.println("return");
-				returnBook(request, response);
-				break;
-			case "/LibraryCrudProject/PatronServlet/update":
-				System.out.println("update");
-				updatePatron(request, response);
-				break;
 			case "/signupPage":
 //				goToSignupForm(request, response);
 				break;
 			case "/signup":
 				signupPatron(request, response);
 				break;
-			case "/signinPage":
-				break;
-			case "/signin":
-				signinPatron(request, response);
-				break;
 			default:
-				System.out.println(fullUrl);
 				goToPatronDashboard(request, response);
-//				response.sendRedirect("/LibraryCrudProject/patronDashboard");
 				break;
 		}
 	}
 	
 	private void goToPatronDashboard(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("HERE");
 		session = request.getSession();
-//		String var = (String) session1.getAttribute("myId");
 		
 		if(session != null) {
+			System.out.println("HERE1");
 			if(session.getAttribute("user") != null) {
-//				RequestDispatcher dispatch = request.getRequestDispatcher("patronDashboard.jsp");
-//				dispatch.forward(request, response);	
-				System.out.println("HERE");
-//				response.sendRedirect("/LibraryCrudProject/patronDashboard");
-				RequestDispatcher dispatch = request.getRequestDispatcher("patronDashboard.jsp");
+				System.out.println("HERE2");
+				
+				RequestDispatcher dispatch = request.getRequestDispatcher("/patronDashboard.jsp");
 				dispatch.forward(request, response);	
+			} else {
+				response.sendRedirect("/LibraryCrudProject/AccessServlet/signinPage");
 			}
 		} else {
-			response.sendRedirect("/LibraryCrudProject/signinPage");
+			response.sendRedirect("/LibraryCrudProject/AccessServlet/signinPage");
 		}
 	}
 	
@@ -131,7 +108,7 @@ public class PatronServlet extends HttpServlet {
 		
 		request.setAttribute("allBooks", allBooks);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("bookList.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/bookList.jsp");
 	
 		dispatcher.forward(request, response);
 	}
