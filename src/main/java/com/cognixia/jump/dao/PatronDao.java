@@ -14,4 +14,5 @@ public interface PatronDao {
 
 	public boolean approveAccount(Patron patron);
 	public boolean freezeAccount(Patron patron);
+	public Patron getPatronLogin(String username, String password);
 }

@@ -57,7 +57,7 @@ public class PatronServlet extends HttpServlet {
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("HERE in PAtron");
+		System.out.println("HERE in Patron");
 		String action = request.getServletPath();
 		String fullUrl = request.getRequestURI();
 		switch(action) {

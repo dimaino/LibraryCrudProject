@@ -157,4 +157,9 @@ public class PatronDaoImp implements PatronDao {
 		}
 		return false;
 	}
+
+	@Override
+	public Patron getPatronLogin(String username, String password) {
+		return null;
+	}
 }
