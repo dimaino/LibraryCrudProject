@@ -50,8 +50,11 @@ private static final long serialVersionUID = 1L;
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("HERE in Access");
-		String action = request.getServletPath();
+		String action = request.getPathInfo();
 		String fullUrl = request.getRequestURI();
+//		String testq = request
+		System.out.println(action);
+		System.out.println(fullUrl);
 		switch(action) {
 			case "/signupPage":
 				goToSignupForm(request, response);
@@ -60,6 +63,12 @@ private static final long serialVersionUID = 1L;
 				signup(request, response);
 				break;
 			case "/signinPage":
+				goToSigninForm(request, response);
+				break;
+			case "/AccessServlet/signinPage":
+				goToSigninForm(request, response);
+				break;
+			case "/LibraryCrudProject/AccessServlet/signinPage":
 				goToSigninForm(request, response);
 				break;
 			case "/signin":
