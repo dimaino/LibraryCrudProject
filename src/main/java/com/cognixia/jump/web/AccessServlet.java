@@ -16,26 +16,30 @@ import com.cognixia.jump.dao.LibrarianDao;
 import com.cognixia.jump.dao.LibrarianDaoImp;
 import com.cognixia.jump.dao.PatronDao;
 import com.cognixia.jump.dao.PatronDaoImp;
+import com.cognixia.jump.model.Librarian;
 import com.cognixia.jump.model.Patron;
 
-@WebServlet("/")
+@WebServlet("/AccessServlet/*")
 public class AccessServlet extends HttpServlet {
 	
 private static final long serialVersionUID = 1L;
 	
 	private PatronDao patronDao;
 	private LibrarianDao librarianDao;
+	private HttpSession session;
 
 	@Override
     public void init() {
 		patronDao = new PatronDaoImp();
 		librarianDao = new LibrarianDaoImp();
+		session = null;
     }
 	
 	@Override
 	public void destroy() {
 		try {
 			ConnectionManager.getConnection().close();
+			session.invalidate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -46,7 +50,7 @@ private static final long serialVersionUID = 1L;
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String action = request.getServletPath();
+		String action = request.getPathInfo();
 		switch(action) {
 			case "/signupPage":
 				goToSignupForm(request, response);
@@ -60,19 +64,22 @@ private static final long serialVersionUID = 1L;
 			case "/signin":
 				signin(request, response);
 				break;
+			case "/logout":
+				goToLogout(request, response);
+				break;
 			default:
-				response.sendRedirect("/");
+				response.sendRedirect("/LibraryCrudProject");
 				break;
 		}
 	}
 	
 	private void goToSignupForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher dispatch = request.getRequestDispatcher("signup.jsp");
+		RequestDispatcher dispatch = request.getRequestDispatcher("/signup.jsp");
 		dispatch.forward(request, response);
 	}
 	
 	private void goToSigninForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher dispatch = request.getRequestDispatcher("login.jsp");
+		RequestDispatcher dispatch = request.getRequestDispatcher("/login.jsp");
 		dispatch.forward(request, response);
 	}
 	
@@ -81,29 +88,33 @@ private static final long serialVersionUID = 1L;
 	}
 	
 	private void signin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String username = request.getParameter("username").trim().toLowerCase();
-		String password = request.getParameter("password").trim();
-		
+		String username = request.getParameter("uname").trim().toLowerCase();
+		String password = request.getParameter("psw").trim();
 		response.setContentType("text/html");
 		
-		// This will track which user is logged in.
-		HttpSession session = request.getSession();  
-		
-		
-		System.out.println(username);
-		System.out.println(password);
+		session = request.getSession();  
+
 		Patron pat = null;
+		Librarian lib = null;
+		
 		if((pat = patronDao.getPatronLogin(username, password)) != null) {
-			session.setAttribute("user", username);
+			session.setAttribute("user", pat);
 			System.out.println("User found in the database!");
-			System.out.println(pat.getFirst_name());
-			System.out.println(pat.getLast_name());
-			System.out.println(pat.getUsername());
-			System.out.println(pat.getPassword());
-//		} else if() {
-//			session.setAttribute("user", username);
+			response.sendRedirect("/LibraryCrudProject/PatronServlet");
+		} else if((lib = librarianDao.getLibrarianLogin(username, password)) != null) {
+			session.setAttribute("user", lib);
+			System.out.println("Librarian found in the database!");
+			response.sendRedirect("librarianDashboard");
 		} else {
 			System.out.println("Incorrect username or password!");
+			goToSigninForm(request, response);
 		}
+	}
+	
+	private void goToLogout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		if(session != null) {
+			session.invalidate();
+		}
+		response.sendRedirect("/LibraryCrudProject");
 	}
 }

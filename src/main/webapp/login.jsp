@@ -2,7 +2,7 @@
 
 <div class="login">
   <h2><strong><center>Login</center></strong></h2><br>
-<form action="AccessServlet" method="POST">
+<form action="<%= request.getContextPath() %>/AccessServlet/signin" method="POST">
 
 <!--	<fieldset>-->
 <!--        <legend>Select User Type</legend>-->

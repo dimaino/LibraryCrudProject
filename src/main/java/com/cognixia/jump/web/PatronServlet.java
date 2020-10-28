@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.cognixia.jump.connection.ConnectionManager;
 import com.cognixia.jump.dao.BookCheckoutDao;
@@ -22,18 +23,16 @@ import com.cognixia.jump.dao.PatronDao;
 import com.cognixia.jump.dao.PatronDaoImp;
 import com.cognixia.jump.model.Book;
 
-//@WebServlet("/LibraryCrudProject/PatronServlet1")
+@WebServlet("/PatronServlet/*")
 public class PatronServlet extends HttpServlet {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	private BookDao bookDao;
 	private PatronDao patronDao;
 	private BookCheckoutDao checkoutDao;
 	private LibrarianDao librarianDao;
+	private HttpSession session;
 
 	@Override
     public void init() {
@@ -47,6 +46,7 @@ public class PatronServlet extends HttpServlet {
 	public void destroy() {
 		try {
 			ConnectionManager.getConnection().close();
+			session.invalidate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -57,21 +57,19 @@ public class PatronServlet extends HttpServlet {
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("HERE in Patron");
-		String action = request.getServletPath();
-		String fullUrl = request.getRequestURI();
+		String action = request.getPathInfo();
+		if(action == null) {
+			action = request.getServletPath();
+		}
+		System.out.println(action);
 		switch(action) {
 			case "/list":
+				System.out.println("LIST");
 				listBooks(request, response);
 				break;
 			case "/checkout":
+				System.out.println("checkout");
 				checkoutBook(request, response);
-				break;
-			case "/return":
-				returnBook(request, response);
-				break;
-			case "/update":
-				updatePatron(request, response);
 				break;
 			case "/signupPage":
 //				goToSignupForm(request, response);
@@ -79,15 +77,28 @@ public class PatronServlet extends HttpServlet {
 			case "/signup":
 				signupPatron(request, response);
 				break;
-			case "/signinPage":
-				break;
-			case "/signin":
-				signinPatron(request, response);
-				break;
 			default:
-				System.out.println(fullUrl);
-				response.sendRedirect("/");
+				goToPatronDashboard(request, response);
 				break;
+		}
+	}
+	
+	private void goToPatronDashboard(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("HERE");
+		session = request.getSession();
+		
+		if(session != null) {
+			System.out.println("HERE1");
+			if(session.getAttribute("user") != null) {
+				System.out.println("HERE2");
+				
+				RequestDispatcher dispatch = request.getRequestDispatcher("/patronDashboard.jsp");
+				dispatch.forward(request, response);	
+			} else {
+				response.sendRedirect("/LibraryCrudProject/AccessServlet/signinPage");
+			}
+		} else {
+			response.sendRedirect("/LibraryCrudProject/AccessServlet/signinPage");
 		}
 	}
 	
@@ -97,7 +108,7 @@ public class PatronServlet extends HttpServlet {
 		
 		request.setAttribute("allBooks", allBooks);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("bookList.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/bookList.jsp");
 	
 		dispatcher.forward(request, response);
 	}

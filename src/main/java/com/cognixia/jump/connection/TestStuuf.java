@@ -31,7 +31,7 @@ public class TestStuuf {
 //		p.setLast_name("BLAM");
 //		p.setUsername("USERNAME!");
 //		System.out.println(pDAO.updatePatron(p));
-//		System.out.println(pDAO.getAllPatrons());
+		System.out.println(pDAO.getAllPatrons());
 		
 		
 		

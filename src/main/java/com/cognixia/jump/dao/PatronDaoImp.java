@@ -21,8 +21,9 @@ public class PatronDaoImp implements PatronDao {
 		DELETE_PATRON("DELETE FROM patron WHERE patron_id = ?"),
 		UPDATE_PATRON("UPDATE patron SET first_name = ?, last_name = ?, username = ? WHERE patron_id = ?"),
 		APPROVE_PATRON("UPDATE patron SET account_frozen = false WHERE patron_id = ?"),
-		FREEZE_PATRON("UPDATE patron SET account_frozen = true WHERE patron_id = ?");
-
+		FREEZE_PATRON("UPDATE patron SET account_frozen = true WHERE patron_id = ?"),
+		SELECT_PATRON_BY_USERNAME_AND_PASSWORD("SELECT * FROM patron WHERE username = ? && password = ?");
+		
 		private final String statement;
 
 		SqlStatements(final String statement) {
@@ -160,6 +161,26 @@ public class PatronDaoImp implements PatronDao {
 
 	@Override
 	public Patron getPatronLogin(String username, String password) {
+		try(PreparedStatement pstmt = conn.prepareStatement(SqlStatements.SELECT_PATRON_BY_USERNAME_AND_PASSWORD.getStatement());) {
+
+			pstmt.setString(1, username);
+			pstmt.setString(2, password);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				return new Patron(
+						rs.getInt("patron_id"), 
+						rs.getString("first_name"), 
+						rs.getString("last_name"),
+						rs.getString("username"), 
+						rs.getString("password"), 
+						rs.getBoolean("account_frozen")
+				);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 }

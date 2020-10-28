@@ -4,6 +4,7 @@
   	<div class="row justify-content-center">
  		<h2>Patron Dashboard</h2>
  	</div>
+ 	<h1>Hello, <c:out value="${user.getFirst_name()} ${user.getLast_name()}" /></h1>
     <div class="row" style="background-color: grey">
         <div class="container" style="padding: 1em; box-shadow: 0.25em  0.25em 0.75em rgba(0,0,0,.25),
           									0.125em 0.125em 0.25em rgba(0,0,0,.15);">
@@ -15,7 +16,7 @@
 	        		</div>
 	        		<div class="col-4 offset-4">
        		       		<div class="d-flex justify-content-between align-items-center" >
-    						<a href="#">
+    						<a href="<%= request.getContextPath() %>/PatronServlet/list">
 								<button class="btn btn-primary btn-sm">View All Books</button>
 							</a>
 							<a href="#">
