@@ -103,14 +103,21 @@ public class PatronServlet extends HttpServlet {
 	}
 	
 	private void listBooks(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		List<Book> allBooks = bookDao.getAllBooks();
-		System.out.println(allBooks);
+		System.out.println("List Books - Patron");
+		session = request.getSession();
 		
-		request.setAttribute("allBooks", allBooks);
-		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/bookList.jsp");
-	
-		dispatcher.forward(request, response);
+		if(session != null) {
+			if(session.getAttribute("user") != null) {
+				List<Book> allBooks = bookDao.getAllBooks();
+				request.setAttribute("allBooks", allBooks);
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/bookList.jsp");
+				dispatcher.forward(request, response);
+			} else {
+				response.sendRedirect("/LibraryCrudProject/AccessServlet/signinPage");
+			}
+		} else {
+			response.sendRedirect("/LibraryCrudProject/AccessServlet/signinPage");
+		}
 	}
 	
 	private void checkoutBook(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

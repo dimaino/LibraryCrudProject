@@ -16,7 +16,7 @@
 <div class="container-fluid p-3 my-3 bg-dark text-white">
 
 	<c:choose>
-		<c:when test="${pat == null}">
+		<c:when test="${user == null}">
 			<div><center>Library Management System</center>
     			<button onclick="location.href='<%= request.getContextPath() %>/AccessServlet/signupPage'" type="button" class="btn btn-info" style="float: right; margin-top: -30px; margin-right: 50px; color: black">Sign Up</button>
     			<button onclick="location.href='<%= request.getContextPath() %>/AccessServlet/signinPage'" type="button" class="btn btn-info" style="float: right;  margin-top: -30px; margin-right: 20px; color: black">Sign In</button> 

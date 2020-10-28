@@ -51,6 +51,7 @@ private static final long serialVersionUID = 1L;
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getPathInfo();
+		System.out.println("HEre");
 		switch(action) {
 			case "/signupPage":
 				goToSignupForm(request, response);
@@ -84,7 +85,7 @@ private static final long serialVersionUID = 1L;
 	}
 	
 	private void signup(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		System.out.println("Trying to sign up");
 	}
 	
 	private void signin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -104,7 +105,7 @@ private static final long serialVersionUID = 1L;
 		} else if((lib = librarianDao.getLibrarianLogin(username, password)) != null) {
 			session.setAttribute("user", lib);
 			System.out.println("Librarian found in the database!");
-			response.sendRedirect("librarianDashboard");
+			response.sendRedirect("/LibraryCrudProject/LibrarianServlet");
 		} else {
 			System.out.println("Incorrect username or password!");
 			goToSigninForm(request, response);
