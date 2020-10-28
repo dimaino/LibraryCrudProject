@@ -11,9 +11,9 @@ public class ConnectionManager {
 	
 	// Windows: jdbc:mysql://localhost:3306/crud_db
 	// Mac: jdbc:mysql://localhost:3306/crud_db?serverTimezone=EST5EDT
-	private static final String URL = "jdbc:mysql://localhost:3306/library?serverTimezone=EST5EDT";
+	private static final String URL = "jdbc:mysql://localhost:3306/library";
 	private static final String USERNAME = "root";
-	private static final String PASSWORD = "Root@123"; // Windows: root
+	private static final String PASSWORD = "root"; // Windows: root
 													   // Mac: Root@123
 	
 	private static void makeConnection() {

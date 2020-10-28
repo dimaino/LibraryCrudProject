@@ -10,10 +10,30 @@
   	<description></description>
   	<servlet-class>com.cognixia.jump.web.LibrarianServlet</servlet-class>
   </servlet>
+  
+  <servlet>
+  	<servlet-name>PatronServlet</servlet-name>
+  	<servlet-class>com.cognixia.jump.web.PatronServlet</servlet-class>
+  </servlet>
+  
+  <servlet>
+  	<servlet-name>AccessServlet</servlet-name>
+  	<servlet-class>com.cognixia.jump.web.AccessServlet</servlet-class>
+  </servlet>
+  
   <servlet-mapping>
   	<servlet-name>LibrarianServlet</servlet-name>
   	<url-pattern>/LibrarianServlet</url-pattern>
   </servlet-mapping>
   
+  <servlet-mapping>
+  	<servlet-name>PatronServlet</servlet-name>
+  	<url-pattern>/PatronServlet</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+  	<servlet-name>AccessServlet</servlet-name>
+  	<url-pattern>/AccessServlet</url-pattern>
+  </servlet-mapping>
   
 </web-app>

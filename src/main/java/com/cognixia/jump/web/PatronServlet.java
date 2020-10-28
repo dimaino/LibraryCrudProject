@@ -22,6 +22,7 @@ import com.cognixia.jump.dao.PatronDao;
 import com.cognixia.jump.dao.PatronDaoImp;
 import com.cognixia.jump.model.Book;
 
+//@WebServlet("/LibraryCrudProject/PatronServlet1")
 public class PatronServlet extends HttpServlet {
 
 	/**
@@ -56,7 +57,9 @@ public class PatronServlet extends HttpServlet {
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("HERE in PAtron");
 		String action = request.getServletPath();
+		String fullUrl = request.getRequestURI();
 		switch(action) {
 			case "/list":
 				listBooks(request, response);
@@ -82,6 +85,7 @@ public class PatronServlet extends HttpServlet {
 				signinPatron(request, response);
 				break;
 			default:
+				System.out.println(fullUrl);
 				response.sendRedirect("/");
 				break;
 		}
@@ -93,7 +97,7 @@ public class PatronServlet extends HttpServlet {
 		
 		request.setAttribute("allBooks", allBooks);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("book-list.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("bookList.jsp");
 	
 		dispatcher.forward(request, response);
 	}
