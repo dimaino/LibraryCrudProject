@@ -52,23 +52,19 @@ private static final long serialVersionUID = 1L;
 		System.out.println("HERE in Access");
 		String action = request.getPathInfo();
 		String fullUrl = request.getRequestURI();
-//		String testq = request
-		System.out.println(action);
-		System.out.println(fullUrl);
+		
+		System.out.println(action + " THIS is the action");
+
 		switch(action) {
 			case "/signupPage":
+				
 				goToSignupForm(request, response);
 				break;
 			case "/signup":
 				signup(request, response);
 				break;
 			case "/signinPage":
-				goToSigninForm(request, response);
-				break;
-			case "/AccessServlet/signinPage":
-				goToSigninForm(request, response);
-				break;
-			case "/LibraryCrudProject/AccessServlet/signinPage":
+				System.out.println("signinPage");
 				goToSigninForm(request, response);
 				break;
 			case "/signin":
@@ -92,9 +88,6 @@ private static final long serialVersionUID = 1L;
 			case "/list":
 				System.out.println("BAD LIST");
 				break;
-//			case "/PatronServlet/list":
-//				System.out.println("BAD LIST");
-//				break;
 			case "/test":
 				System.out.println("test");
 				break;
@@ -102,15 +95,14 @@ private static final long serialVersionUID = 1L;
 				System.out.println("test2");
 				break;
 			default:
-				System.out.println("HERE");
-				System.out.println(fullUrl);
 				response.sendRedirect("/LibraryCrudProject");
 				break;
 		}
 	}
 	
 	private void goToSignupForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher dispatch = request.getRequestDispatcher("signup.jsp");
+		System.out.println("WE HEre");
+		RequestDispatcher dispatch = request.getRequestDispatcher("AccessServlet/signup.jsp");
 		dispatch.forward(request, response);
 	}
 	
