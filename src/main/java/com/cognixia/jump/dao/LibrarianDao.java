@@ -12,4 +12,6 @@ public interface LibrarianDao {
 	public boolean addLibrarian(Librarian librarian);
 	public boolean deleteLibrarian(int id);
 	public boolean updateLibrarian(Librarian librarian);
+	
+	public Librarian getLibrarianLogin(String username, String password);
 }

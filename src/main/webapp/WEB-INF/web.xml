@@ -23,17 +23,17 @@
   
   <servlet-mapping>
   	<servlet-name>LibrarianServlet</servlet-name>
-  	<url-pattern>/LibrarianServlet</url-pattern>
+  	<url-pattern>/LibrarianServlet/*</url-pattern>
   </servlet-mapping>
   
   <servlet-mapping>
   	<servlet-name>PatronServlet</servlet-name>
-  	<url-pattern>/PatronServlet</url-pattern>
+  	<url-pattern>/PatronServlet/*</url-pattern>
   </servlet-mapping>
   
   <servlet-mapping>
   	<servlet-name>AccessServlet</servlet-name>
-  	<url-pattern>/AccessServlet</url-pattern>
+  	<url-pattern>/AccessServlet/*</url-pattern>
   </servlet-mapping>
   
 </web-app>

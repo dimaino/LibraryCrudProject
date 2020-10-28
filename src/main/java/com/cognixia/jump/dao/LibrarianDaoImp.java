@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.cognixia.jump.connection.ConnectionManager;
+import com.cognixia.jump.dao.PatronDaoImp.SqlStatements;
 import com.cognixia.jump.model.Librarian;
+import com.cognixia.jump.model.Patron;
 
 public class LibrarianDaoImp implements LibrarianDao {
 
@@ -19,7 +21,8 @@ public class LibrarianDaoImp implements LibrarianDao {
 		SELECT_LIBRARIAN_BY_ID("SELECT * FROM librarian WHERE librarian_id = ?"),
 		INSERT_LIBRARIAN("INSERT INTO librarian(username, password) VALUES(?, ?)"),
 		DELETE_LIBRARIAN("DELETE FROM librarian WHERE librarian_id = ?"),
-		UPDATE_LIBRARIAN("UPDATE librarian SET username = ?, password = ? WHERE librarian_id = ?");
+		UPDATE_LIBRARIAN("UPDATE librarian SET username = ?, password = ? WHERE librarian_id = ?"),
+		SELECT_LIBRARIAN_BY_USERNAME_AND_PASSWORD("SELECT * FROM librarian WHERE username = ? && password = ?");
 
 		private final String statement;
 
@@ -128,6 +131,28 @@ public class LibrarianDaoImp implements LibrarianDao {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	@Override
+	public Librarian getLibrarianLogin(String username, String password) {
+		try(PreparedStatement pstmt = conn.prepareStatement(SqlStatements.SELECT_LIBRARIAN_BY_USERNAME_AND_PASSWORD.getStatement());) {
+
+			pstmt.setString(1, username);
+			pstmt.setString(2, password);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				return new Librarian(
+						rs.getInt("librarian_id"), 
+						rs.getString("username"),
+						rs.getString("password")
+				);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

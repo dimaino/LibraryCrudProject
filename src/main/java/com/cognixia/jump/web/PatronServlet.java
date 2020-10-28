@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.cognixia.jump.connection.ConnectionManager;
 import com.cognixia.jump.dao.BookCheckoutDao;
@@ -22,7 +23,7 @@ import com.cognixia.jump.dao.PatronDao;
 import com.cognixia.jump.dao.PatronDaoImp;
 import com.cognixia.jump.model.Book;
 
-//@WebServlet("/LibraryCrudProject/PatronServlet1")
+//@WebServlet("/LibraryCrudProject/patronDashboard")
 public class PatronServlet extends HttpServlet {
 
 	/**
@@ -34,6 +35,7 @@ public class PatronServlet extends HttpServlet {
 	private PatronDao patronDao;
 	private BookCheckoutDao checkoutDao;
 	private LibrarianDao librarianDao;
+	private HttpSession session;
 
 	@Override
     public void init() {
@@ -60,17 +62,30 @@ public class PatronServlet extends HttpServlet {
 		System.out.println("HERE in Patron");
 		String action = request.getServletPath();
 		String fullUrl = request.getRequestURI();
+		System.out.println(action);
 		switch(action) {
 			case "/list":
+				System.out.println("LIST");
+				listBooks(request, response);
+				break;
+			case "/PatronServlet/list":
+				System.out.println("LIST");
+				listBooks(request, response);
+				break;
+			case "/LibraryCrudProject/PatronServlet/list":
+				System.out.println("LIST");
 				listBooks(request, response);
 				break;
 			case "/checkout":
+				System.out.println("checkout");
 				checkoutBook(request, response);
 				break;
-			case "/return":
+			case "/LibraryCrudProject/PatronServlet/return":
+				System.out.println("return");
 				returnBook(request, response);
 				break;
-			case "/update":
+			case "/LibraryCrudProject/PatronServlet/update":
+				System.out.println("update");
 				updatePatron(request, response);
 				break;
 			case "/signupPage":
@@ -86,8 +101,27 @@ public class PatronServlet extends HttpServlet {
 				break;
 			default:
 				System.out.println(fullUrl);
-				response.sendRedirect("/");
+				goToPatronDashboard(request, response);
+//				response.sendRedirect("/LibraryCrudProject/patronDashboard");
 				break;
+		}
+	}
+	
+	private void goToPatronDashboard(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		session = request.getSession();
+//		String var = (String) session1.getAttribute("myId");
+		
+		if(session != null) {
+			if(session.getAttribute("user") != null) {
+//				RequestDispatcher dispatch = request.getRequestDispatcher("patronDashboard.jsp");
+//				dispatch.forward(request, response);	
+				System.out.println("HERE");
+//				response.sendRedirect("/LibraryCrudProject/patronDashboard");
+				RequestDispatcher dispatch = request.getRequestDispatcher("patronDashboard.jsp");
+				dispatch.forward(request, response);	
+			}
+		} else {
+			response.sendRedirect("/LibraryCrudProject/signinPage");
 		}
 	}
 	
