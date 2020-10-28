@@ -56,6 +56,10 @@ public class TestStuuf {
 //		Book book = bDAO.getBookByISBN("9934567896");
 //		book.setDescr("NEW DESCRIPTION");
 //		book.setTitle("THE TITTLE");
+//		System.out.println(bDAO.returnBook(book));
+//		System.out.println(bDAO.getBookByISBN("9934567896"));
+//		System.out.println(bDAO.checkoutBook(book));
+//		System.out.println(bDAO.getBookByISBN("9934567896"));
 //		System.out.println(bDAO.updateBook(book));
 //		System.out.println(bDAO.getBookByISBN("9934567896"));
 //		System.out.println(bDAO.getAllBooks());
