@@ -21,6 +21,9 @@
         <a href="edit?isbn=<c:out value='${ book.isbn }' />">
 			<button class="btn btn-primary">Edit</button>
 		</a>
+		<button class="btn btn-primary">Checkout</button>
+		<button class="btn btn-primary">Exit</button>
+		
 	</div>
 	
 	
