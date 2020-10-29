@@ -46,27 +46,27 @@
 						</tr>
 					</thead>
 					<tbody>
+						<c:forEach var="bookcheckout" items="${checkoutBooks}">
 							<tr>
 								<td>
-									Harry Potter
+									<c:out value="${ bookcheckout.isbn }"/>
 								</td>
 								<td>
-									12-30-1999
+									<c:out value="${ bookcheckout.checkedout }"/>
 								</td>
 								<td>
-									01-06-2000
+									<c:out value="${ bookcheckout.due_date }"/>
 								</td>
 								<td>
-									True
+									TODO
 								</td>
-
-								
 								<td>
 									<a href="#">
-										<button class="btn btn-primary btn-sm">Return</button>
+										<button class="btn btn-danger">View</button>
 									</a>
 								</td>
 							</tr>
+						</c:forEach>
 					</tbody>
 				</table>
 	        </div>

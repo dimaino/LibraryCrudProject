@@ -1,6 +1,7 @@
 package com.cognixia.jump.model;
 
 import java.sql.Date;
+import java.util.List;
 
 public class BookCheckout {
 
@@ -10,7 +11,9 @@ public class BookCheckout {
 	private Date checkedout;
 	private Date due_date;
 	private Date returned;
-
+	
+	private Book b;
+	
 	public BookCheckout(int checkout_id, int patron_id, String isbn, Date checkedout, Date due_date, Date returned) {
 		super();
 		this.checkout_id = checkout_id;
@@ -19,6 +22,18 @@ public class BookCheckout {
 		this.checkedout = checkedout;
 		this.due_date = due_date;
 		this.returned = returned;
+		this.b = null;
+	}
+
+	public BookCheckout(int checkout_id, int patron_id, String isbn, Date checkedout, Date due_date, Date returned, Book b) {
+		super();
+		this.checkout_id = checkout_id;
+		this.patron_id = patron_id;
+		this.isbn = isbn;
+		this.checkedout = checkedout;
+		this.due_date = due_date;
+		this.returned = returned;
+		this.b = b;
 	}
 
 	public int getCheckout_id() {
@@ -67,6 +82,14 @@ public class BookCheckout {
 
 	public void setReturned(Date returned) {
 		this.returned = returned;
+	}
+
+	public Book getB() {
+		return b;
+	}
+
+	public void setB(Book b) {
+		this.b = b;
 	}
 
 	@Override
