@@ -175,21 +175,32 @@ private static final long serialVersionUID = 1L;
 		Librarian lib = null;
 		
 		if((pat = patronDao.getPatronLogin(username)) != null) {
-			if(!pat.isAccount_frozen()) {
-				session.setAttribute("user", pat);
-				System.out.println("User found in the database!");
-				response.sendRedirect("/LibraryCrudProject/PatronServlet");
+			if(pat.getPassword().equals(password)) {
+				if(!pat.isAccount_frozen()) {
+					session.setAttribute("user", pat);
+					System.out.println("User found in the database!");
+					response.sendRedirect("/LibraryCrudProject/PatronServlet");
+					return;
+				}
+				request.setAttribute("error", "This account needs to be unfrozen by a librarian.");
+				System.out.println("Frozen Account!");
+				goToSigninForm(request, response);
 				return;
 			}
-			request.setAttribute("error", "This account needs to be unfrozen by a librarian.");
-			System.out.println("Frozen Account!");
+			request.setAttribute("error", "The password or username is incorrect for this user.");
+			System.out.println("Password incorrect - Patron");
 			goToSigninForm(request, response);
 			return;
-		} else if((lib = librarianDao.getLibrarianLogin(username, password)) != null) {
-			session.setAttribute("user", lib);
-			
-			System.out.println("Librarian found in the database!");
-			response.sendRedirect("/LibraryCrudProject/LibrarianServlet");
+		} else if((lib = librarianDao.getLibrarianLogin(username)) != null) {
+			if(lib.getPassword().equals(password)) {
+				session.setAttribute("user", lib);
+				System.out.println("Librarian found in the database!");
+				response.sendRedirect("/LibraryCrudProject/LibrarianServlet");
+				return;
+			}
+			request.setAttribute("error", "The password or username is incorrect for this user.");
+			System.out.println("Password incorrect - Librarian");
+			goToSigninForm(request, response);
 			return;
 		} else {
 			request.setAttribute("error", "The username or password is incorrect.");
@@ -222,4 +233,12 @@ private static final long serialVersionUID = 1L;
 		response.sendRedirect("/LibraryCrudProject");
 		return;
 	}
+	
+//	private void (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//		session = request.getSession(); 
+//		if(session != null) {
+//			session.invalidate();
+//		}
+//		response.sendRedirect("/LibraryCrudProject");
+//	}
 }

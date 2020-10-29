@@ -22,7 +22,7 @@ public class LibrarianDaoImp implements LibrarianDao {
 		INSERT_LIBRARIAN("INSERT INTO librarian(username, password) VALUES(?, ?)"),
 		DELETE_LIBRARIAN("DELETE FROM librarian WHERE librarian_id = ?"),
 		UPDATE_LIBRARIAN("UPDATE librarian SET username = ?, password = ? WHERE librarian_id = ?"),
-		SELECT_LIBRARIAN_BY_USERNAME_AND_PASSWORD("SELECT * FROM librarian WHERE username = ? && password = ?");
+		SELECT_LIBRARIAN_BY_USERNAME("SELECT * FROM librarian WHERE username = ?");
 
 		private final String statement;
 
@@ -134,11 +134,10 @@ public class LibrarianDaoImp implements LibrarianDao {
 	}
 
 	@Override
-	public Librarian getLibrarianLogin(String username, String password) {
-		try(PreparedStatement pstmt = conn.prepareStatement(SqlStatements.SELECT_LIBRARIAN_BY_USERNAME_AND_PASSWORD.getStatement());) {
+	public Librarian getLibrarianLogin(String username) {
+		try(PreparedStatement pstmt = conn.prepareStatement(SqlStatements.SELECT_LIBRARIAN_BY_USERNAME.getStatement());) {
 
 			pstmt.setString(1, username);
-			pstmt.setString(2, password);
 			
 			ResultSet rs = pstmt.executeQuery();
 			
