@@ -14,11 +14,8 @@ import com.cognixia.jump.dao.BookCheckoutDaoImp;
 import com.cognixia.jump.dao.BookDaoImp;
 import com.cognixia.jump.model.Book;
 
-	
-/**
- * Servlet implementation class BookServlet
- */
 
+	
 @WebServlet("/books/*")
 public class BookServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -43,6 +40,21 @@ public class BookServlet extends HttpServlet {
 			case("bookList"):
 				listBooks(request, response);
 				break;
+			case("new"):
+				gotoNewBookForm(request, response);
+				break;
+			case("edit"):
+				gotoEditBookForm(request, response);
+				break;
+			case("update"):
+				editBook(request, response);
+				break;
+			case ("insert"):
+				addNewBook(request,response);
+				break;
+			case ("view"):
+				gotoViewBook(request,response);
+				break;
 			default:
 				response.sendRedirect("/");
 				break;
@@ -53,7 +65,6 @@ public class BookServlet extends HttpServlet {
 	} //end of doGet()
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 	
@@ -69,6 +80,73 @@ public class BookServlet extends HttpServlet {
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/bookList.jsp");
 		System.out.println("sent");
 		dispatcher.forward(request, response);
+	}
+	
+	
+	private void gotoNewBookForm(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
+		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/bookForm.jsp");
+		dispatcher.forward(request, response);
+	}
+	
+	private void gotoEditBookForm(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
+		
+		String isbn = request.getParameter("isbn");
+		Book book = bookDao.getBookByISBN(isbn);
+		request.setAttribute("book", book);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/bookForm.jsp");
+		dispatcher.forward(request, response);
+		
+	}
+	
+	
+	private void editBook(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
+		
+		String isbn = request.getParameter("isbn");
+		
+		String title = request.getParameter("title");
+		String descr = request.getParameter("descr");
+		String description = request.getParameter("description");
+		Book book = new Book(isbn, title, descr, false, null);
+		
+		if(bookDao.updateBook(book)) {
+			System.out.println("Updated book: " + book);
+		}
+		
+		response.sendRedirect("books/bookList");
+	}
+	
+	
+	private void addNewBook(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
+		
+		String isbn = request.getParameter("isbn");
+		String title = request.getParameter("title");
+		String descr = request.getParameter("descr");
+		Book book = new Book(isbn, title, descr, false, null);
+		
+		if(bookDao.addBook(book)) {
+			System.out.println("Updated book: " + book);
+		}
+		
+		response.sendRedirect("bookList");
+	}
+	
+	private void gotoViewBook(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
+		
+		
+		String isbn = request.getParameter("isbn");
+		Book book = bookDao.getBookByISBN(isbn);
+		
+		request.setAttribute("book", book);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/book.jsp");
+		dispatcher.forward(request, response);
+		
+
 	}
 
 }

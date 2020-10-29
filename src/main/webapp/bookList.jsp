@@ -53,8 +53,8 @@
 								<td>
 				
 									
-									<a href="#">
-										<button class="btn btn-danger">View</button>
+									<a href="view?isbn=<c:out value='${ book.isbn }' />">
+										<button class="btn btn-primary">View</button>
 									</a>
 								</td>
 							</tr>

@@ -20,10 +20,10 @@
 							<a href="#">
 								<button class="btn btn-primary btn-sm">View Available</button>
 							</a>
-							<a href="#">
-								<button class="btn btn-primary btn-sm">View Available</button>
+							<a href="<%= request.getContextPath()%>/listCurrentBookCheckouts">
+								<button class="btn btn-primary btn-sm">View Checked Out</button>
 							</a>
-							<a href="#">
+							<a href="<%= request.getContextPath()%>/books/new">
 								<button class="btn btn-danger btn-sm">Add Book</button>
 							</a>
 	        		</div>
