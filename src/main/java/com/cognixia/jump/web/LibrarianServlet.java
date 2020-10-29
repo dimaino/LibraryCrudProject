@@ -78,7 +78,7 @@ public class LibrarianServlet extends HttpServlet {
 			case("/listPastBookCheckouts"):
 				getAllPastBookCheckouts(request,response);
 			break;
-			case("/list"):
+			
 				
 			default:
 				response.sendRedirect("/");
@@ -102,11 +102,11 @@ public class LibrarianServlet extends HttpServlet {
 		
 		request.setAttribute("currentCheckedOutBooks", currentCheckedOutBooks);
 		
-		//RequestDispatcher dispatcher = request.getRequestDispatcher("BookCheckout-list.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("test-jsp-bookcheckout.jsp");
 		System.out.println("sent");
 		System.out.println("this is the request being sent"+request.getServerName()+request.getLocalPort());
 		System.out.println("this is the response being sent"+response.toString());
-		//dispatcher.forward(request, response);
+		dispatcher.forward(request, response);
 		
 		
 	}

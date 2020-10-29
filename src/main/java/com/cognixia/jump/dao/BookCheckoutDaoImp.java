@@ -5,7 +5,6 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,24 +32,61 @@ public class BookCheckoutDaoImp implements BookCheckoutDao {
 	
 	//have all the queries here for clarity to see what queries we are writing
 	
-	private static final String SELECT_CURRENT_CHECKEDOUTBOOKS= "select * from book_checkout where returned is ?";//is null 
-	private static final String SELECT_PAST_CHECKEDOUTBOOKS= "select * from book_checkout where returned is not ?";//is not null
-	private static final String SELECT_CHECKEDOUTBOOKS_BYDATE="select * from book_checkout where checkedout<?";
-	private static final String SELECT_CHECKEDOUTBOOKS_BETWEENDATE="select * from book_checkout where checkedout between ? and ?";
+	private static final String SELECT_CURRENT_CHECKEDOUTBOOKS= "SELECT * FROM book_checkout WHERE returned IS ?";//is null 
+	private static final String SELECT_PAST_CHECKEDOUTBOOKS= "SELECT * FROM book_checkout WHERE returned IS NOT ?";//is not null
+	private static final String SELECT_CHECKEDOUTBOOKS_BYDATE="SELECT * FROM book_checkout WHERE checkedout<?";
+	private static final String SELECT_CHECKEDOUTBOOKS_BETWEENDATE="SELECT * FROM book_checkout WHERE checkedout BETWEEN ? AND ?";
 	
 	//this is solely for checking the availability of books as well as popularity 
-	private static final String SELECT_CURRENT_CHECKEDOUTBOOKS_BYPATRONID="select * from book_checkout where patron_id=? and returned is ?";
-	private static final String SELECT_PAST_CHECKEDOUTBOOKS_BYPATRONID="select * from book_checkout where patron_id=? and returned is not ?";
-	private static final String SELECT_CURRENT_CHECKEDOUTBOOKS_BYISBN="select * from book_checkout where isbn=? and returned is ?";
-	private static final String SELECT_PAST_CHECKEDOUTBOOKS_BYISBN="select * from book_checkout where isbn=? and returned is not ?";
+	private static final String SELECT_CURRENT_CHECKEDOUTBOOKS_BYPATRONID="SELECT * FROM book_checkout WHERE patron_id=? AND returned is ?";
+	private static final String SELECT_PAST_CHECKEDOUTBOOKS_BYPATRONID="SELECT * FROM book_checkout WHERE patron_id=? AND returned IS NOT ?";
+	private static final String SELECT_CURRENT_CHECKEDOUTBOOKS_BYISBN="SELECT * FROM book_checkout WHERE isbn=? AND returned IS ?";
+	private static final String SELECT_PAST_CHECKEDOUTBOOKS_BYISBN="SELECT * FROM book_checkout WHERE isbn=? and returned IS NOT ?";
 
-	private static final String SELECT_CURRENT_CHECKEDOUTBOOKS_BYCHECKOUTID="select * from book_checkout where checkout_id=?";
-
+	private static final String SELECT_CURRENT_CHECKEDOUTBOOKS_BYCHECKOUTID="SELECT * FROM book_checkout WHERE checkout_id=?";
+	
+	private static final String ADD_BOOKCHECKOUT = "INSERT INTO book_checkout(patron_id,isbn,checkedout,due_date) VALUES (?,?,?,?)";
+	private static final String DELETE_BOOKCHECKOUT = "DELETE FROM book_checkout WHERE checkout_id=?";
+	
+	
+	private static final String CHECK_BOOK_AVAILABILTY = "SELECT * FROM book_checkout where isbn=?";
+	
+	private static final String UPDATE_DUEDATE = "UPDATE book_checkout SET due_date=? WHERE checkout_id=?";
 	
 	
 //	private static final String SELECT_CURRENT_CHECKEDOUTBOOKS_BYPATRONID = "SELECT * FROM book_checkout JOIN book ON book_checkout.isbn = book.isbn WHERE patron_id = ? AND returned = ?";
 	
 	//add update,delete and add functions later 
+	
+	
+	//This function checks if the book can be checked out or not 
+	boolean isBookCheckable(String isbn) {
+		ResultSet rs=null;
+	
+		try(PreparedStatement pstmt = conn.prepareStatement(CHECK_BOOK_AVAILABILTY))
+		{
+			pstmt.setString(1, isbn);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				if (rs.getDate("returned") ==null) {
+					System.out.println("Sorry the book cannot be checked out right now, it has been checked out");
+					return false;
+					
+				}
+				
+				
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		
+		return true; 
+		
+	}
 	
 	@Override
 	public List<BookCheckout> getAllCurrentBookCheckouts() {
@@ -404,7 +440,7 @@ public class BookCheckoutDaoImp implements BookCheckoutDao {
 			
 		
 			pstmt.setString(1, ISBN);
-			
+			//Date date = new Date() //this will give the today's date 
 			LocalDate locDate = LocalDate.now();
 			java.sql.Date SQLDate = java.sql.Date.valueOf(locDate);
 		    pstmt.setDate(2, SQLDate);
@@ -457,7 +493,11 @@ public class BookCheckoutDaoImp implements BookCheckoutDao {
 		
 		pstmt.setInt(1, id);	
 		rs = pstmt.executeQuery();
-		rs.next();
+		if(rs.next()==false) {
+			System.out.println("Sorry the checout id does not exist ");
+			return book;
+		}
+		//rs.next();
 			
 			
 			/*
@@ -495,21 +535,91 @@ public class BookCheckoutDaoImp implements BookCheckoutDao {
 
 	@Override
 	public boolean addBookCheckout(BookCheckout bookCheckout) {
-		// TODO Auto-generated method stub
+		
+		//logic1 , book should be checkable that is returned field should have valid date 
+		//logic 2, book's returned should be set to null automatically once this function return true
+		//logic 3, we can hardcode the today's date within this function for checkedoutdate
+		try(PreparedStatement pstmt = conn.prepareStatement(ADD_BOOKCHECKOUT))
+		{
+			/*
+			 *  private int checkout_id;
+				private int patron_id;
+				private String isbn;
+				private Date checkedout;
+				private Date due_date;
+				private Date returned;
+				
+				
+			 */
+			
+			if(isBookCheckable(bookCheckout.getIsbn())) {
+				
+			
+			
+			pstmt.setInt(1, bookCheckout.getPatron_id());
+			pstmt.setString(2, bookCheckout.getIsbn());
+			pstmt.setDate(3, bookCheckout.getCheckedout());
+			pstmt.setDate(4, bookCheckout.getDue_date());
+			
+			
+			
+			if(pstmt.executeUpdate() > 0) {
+				//System.out.println("The bookcheckout with id "+bookCheckout.getCheckout_id()+"added");
+				return true;
+			}
+			}
+			else {
+				System.out.println("sorry the book has been checked out , please visit again");
+				return false;
+			}
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		System.out.println("Sorry the add process was not successful");
 		return false;
 	}
 
 	@Override
 	public boolean deleteBookCheckout(int id) {
-		// TODO Auto-generated method stub
+		try(PreparedStatement pstmt = conn.prepareStatement(DELETE_BOOKCHECKOUT))
+		{
+			pstmt.setInt(1, id);
+			if(pstmt.executeUpdate()>0) {
+				System.out.println("The bookcheckout with id "+id+"deleted");
+				return true; 
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("Sorry the delete process was not successful");
 		return false;
 	}
 
 	@Override
-	public boolean updateBookCheckout(BookCheckout bookCheckout) {
-		// TODO Auto-generated method stub
+	public boolean updateBookCheckout(java.sql.Date date, int checkout_id) {
+		try(PreparedStatement pstmt = conn.prepareStatement(UPDATE_DUEDATE))
+		{
+			pstmt.setDate(1, date);
+			pstmt.setInt(2, checkout_id);
+			if(pstmt.executeUpdate()>0) {
+				System.out.println("The update on due date is successful !");
+				return true; 
+			}
+		}catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		System.out.println("Sorry the update was not successful");
 		return false;
-	}
+	} //end of the updateBookCheckout()
 	
 
 //test as you go 
@@ -533,9 +643,10 @@ public static void main(String args[]) {
 	*/
 	
 	//List<BookCheckout> list = obj.getAllCurrentCheckoutsByPatronId(1); //function 5 test
-	List<BookCheckout> list = obj.getAllPastCheckoutsByPatronId(1); //function 6 test 
+	//List<BookCheckout> list = obj.getAllPastCheckoutsByPatronId(1); //function 6 test 
 	
-	
+	//List<BookCheckout> list = obj.getAllCurrentBookCheckoutsByISBN("1234567893"); //function 7 test 
+	List<BookCheckout> list = obj.getAllPastBookCheckoutsByISBN("1234567893"); //function 8 test 
 	
 	
 	for(int i=0; i<list.size(); i++) {
@@ -549,9 +660,25 @@ public static void main(String args[]) {
 		System.out.println("-------------------------------------------------------");
 	}
 	
-	System.out.println("The following is the book listed by checkout Id");
+	   /* private int checkout_id;
+		private int patron_id;
+		private String isbn;
+		private Date checkedout;
+		private Date due_date;
+		private Date returned;
+		*/
+	 
+	BookCheckout bcheck = new BookCheckout(1,"1234567895",java.sql.Date.valueOf("2020-10-27"),java.sql.Date.valueOf("2020-11-04"));
+	//obj.addBookCheckout(bcheck);
+	obj.deleteBookCheckout(1);
 	
-	BookCheckout book = obj.getBookCheckoutByCheckoutId(1);
+	obj.updateBookCheckout(java.sql.Date.valueOf("2020-11-27"), 2);
+	
+
+	
+	System.out.println("The following is the book listed by checkout Id"); //function 9 test 
+	
+	BookCheckout book = obj.getBookCheckoutByCheckoutId(2);
 	
 	System.out.println("The checkout id is "+book.getCheckout_id());
 	System.out.println("The patron id is "+book.getPatron_id());
@@ -564,16 +691,6 @@ public static void main(String args[]) {
 	
 }
 
-//	@Override
-//	public List<BookCheckout> viewPastCheckedOutBooks() {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//
-//	@Override
-//	public List<BookCheckout> viewCurrentCheckedOutBooks() {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
+
 
 }

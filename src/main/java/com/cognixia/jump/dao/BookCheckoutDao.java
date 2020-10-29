@@ -67,7 +67,7 @@ public interface BookCheckoutDao {
 	public boolean deleteBookCheckout(int id);
 	
 	//BookCheckout table should not be allowed to update !!!
-	public boolean updateBookCheckout(BookCheckout bookCheckout);
+	public boolean updateBookCheckout(java.sql.Date date, int checkout_id);
 
 	
 }
