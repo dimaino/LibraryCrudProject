@@ -116,7 +116,7 @@ public class BookServlet extends HttpServlet {
 			System.out.println("Updated book: " + book);
 		}
 		
-		response.sendRedirect("books/bookList");
+		response.sendRedirect("bookList");
 	}
 	
 	

@@ -11,6 +11,7 @@
 	<c:choose>
 		<c:when test="${ book != null }">
 			<form action="update" method="post">
+			
 		</c:when>
 		
 		<c:otherwise>
@@ -35,6 +36,7 @@
     <label for="descr">Book Description</label>
   <textarea class="form-control" rows="3"  name="descr" id="descr"><c:out value='${book.descr}'/></textarea>
 </div>
+
 <button type="submit" style="text-align: right; color: white; float: right" type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
   Save
 </button>
