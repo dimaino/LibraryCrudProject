@@ -1,0 +1,44 @@
+.margin {
+	margin-bottom: 45px;
+}
+
+h3.margin {
+	font-size: 45px;
+}
+
+.bg-1 {
+	background-color: #E6E6FA; /* Green */
+	color: #000000;
+}
+
+.bg-2 {
+	background-color: #474e5d; /* Dark Blue */
+	color: #ffffff;
+}
+
+.bg-3 {
+	background-color: #FFFFF0; /* White */
+	color: #555555;
+}
+
+.bg-4 {
+	background-color: #2f2f2f; /* Black Gray */
+	color: #fff;
+}
+
+.container-fluid {
+	padding-top: 70px;
+	padding-bottom: 70px;
+}
+
+.welcome-image {
+	width: 100%;
+	height: 100%;
+}
+
+.oval {
+	width: 475px;
+	height: 320px;
+	background: #a84909;
+	border-radius: 50%;
+}

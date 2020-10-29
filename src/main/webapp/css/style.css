@@ -5,3 +5,35 @@
 
 }
 
+html, body {
+	background-color: white;
+}
+
+#page-container {
+  position: relative;
+  min-height: 100vh;
+}
+
+#content-wrap {
+  padding-bottom: 20px;
+}
+
+#footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%; 
+  background-color: black;
+  text-align: center;
+  padding: 10px;
+  color: white;
+}
+
+#nav-center {
+	margin-left: 10px;
+}
+
+#account-created {
+	font-size: 40px;
+	text-align: center;
+	margin-top: 200px;"
+}

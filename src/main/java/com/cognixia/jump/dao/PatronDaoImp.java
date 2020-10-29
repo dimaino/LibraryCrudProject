@@ -22,7 +22,7 @@ public class PatronDaoImp implements PatronDao {
 		UPDATE_PATRON("UPDATE patron SET first_name = ?, last_name = ?, username = ? WHERE patron_id = ?"),
 		APPROVE_PATRON("UPDATE patron SET account_frozen = false WHERE patron_id = ?"),
 		FREEZE_PATRON("UPDATE patron SET account_frozen = true WHERE patron_id = ?"),
-		SELECT_PATRON_BY_USERNAME_AND_PASSWORD("SELECT * FROM patron WHERE username = ? && password = ?");
+		SELECT_PATRON_BY_USERNAME("SELECT * FROM patron WHERE username = ?");
 		
 		private final String statement;
 
@@ -160,11 +160,10 @@ public class PatronDaoImp implements PatronDao {
 	}
 
 	@Override
-	public Patron getPatronLogin(String username, String password) {
-		try(PreparedStatement pstmt = conn.prepareStatement(SqlStatements.SELECT_PATRON_BY_USERNAME_AND_PASSWORD.getStatement());) {
+	public Patron getPatronLogin(String username) {
+		try(PreparedStatement pstmt = conn.prepareStatement(SqlStatements.SELECT_PATRON_BY_USERNAME.getStatement());) {
 
 			pstmt.setString(1, username);
-			pstmt.setString(2, password);
 			
 			ResultSet rs = pstmt.executeQuery();
 			
