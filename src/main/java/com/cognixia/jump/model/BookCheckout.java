@@ -21,6 +21,14 @@ public class BookCheckout {
 		this.returned = returned;
 	}
 
+	public BookCheckout(int patron_id, String isbn, Date checkedout, Date due_date) {
+		super();
+		this.patron_id = patron_id;
+		this.isbn = isbn;
+		this.checkedout = checkedout;
+		this.due_date = due_date;
+	}
+
 	public int getCheckout_id() {
 		return checkout_id;
 	}
