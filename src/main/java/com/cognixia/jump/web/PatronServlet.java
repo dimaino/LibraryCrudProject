@@ -2,6 +2,7 @@ package com.cognixia.jump.web;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -22,6 +23,8 @@ import com.cognixia.jump.dao.LibrarianDaoImp;
 import com.cognixia.jump.dao.PatronDao;
 import com.cognixia.jump.dao.PatronDaoImp;
 import com.cognixia.jump.model.Book;
+import com.cognixia.jump.model.BookCheckout;
+import com.cognixia.jump.model.Patron;
 
 @WebServlet("/PatronServlet/*")
 public class PatronServlet extends HttpServlet {
@@ -64,18 +67,17 @@ public class PatronServlet extends HttpServlet {
 		System.out.println(action);
 		switch(action) {
 			case "/list":
-				System.out.println("LIST");
 				listBooks(request, response);
 				break;
 			case "/checkout":
 				System.out.println("checkout");
 				checkoutBook(request, response);
 				break;
-			case "/signupPage":
-//				goToSignupForm(request, response);
-				break;
 			case "/signup":
 				signupPatron(request, response);
+				break;
+			case "/return":
+				returnBook(request, response);
 				break;
 			default:
 				goToPatronDashboard(request, response);
@@ -84,13 +86,18 @@ public class PatronServlet extends HttpServlet {
 	}
 	
 	private void goToPatronDashboard(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("HERE");
 		session = request.getSession();
 		
 		if(session != null) {
-			System.out.println("HERE1");
 			if(session.getAttribute("user") != null) {
-				System.out.println("HERE2");
+				Patron pat = (Patron) session.getAttribute("user");
+				
+				List<BookCheckout> checkoutBooks = checkoutDao.getAllCurrentCheckoutsByPatronId(pat.getPatron_id());
+				
+				for(BookCheckout bc: checkoutBooks) {
+					bc.setBook(bookDao.getBookByISBN(bc.getIsbn()));
+				}
+				request.setAttribute("checkoutBooks", checkoutBooks);
 				
 				RequestDispatcher dispatch = request.getRequestDispatcher("/patronDashboard.jsp");
 				dispatch.forward(request, response);	
@@ -125,7 +132,21 @@ public class PatronServlet extends HttpServlet {
 	}
 	
 	private void returnBook(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("Return Book - Patron");
+		session = request.getSession();
 		
+		if(session != null) {
+			if(session.getAttribute("user") != null) {
+				String isbn = request.getParameter("isbn");
+				bookDao.returnBook(bookDao.getBookByISBN(isbn));
+				response.sendRedirect("/LibraryCrudProject/PatronServlet");
+				return;
+			} else {
+				response.sendRedirect("/LibraryCrudProject/AccessServlet/signinPage");
+			}
+		} else {
+			response.sendRedirect("/LibraryCrudProject/AccessServlet/signinPage");
+		}
 	}
 	
 	private void signupPatron(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

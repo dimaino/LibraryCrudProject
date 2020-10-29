@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.cognixia.jump.connection.ConnectionManager;
+import com.cognixia.jump.model.Book;
 import com.cognixia.jump.model.BookCheckout;
 
 /*
@@ -45,6 +46,9 @@ public class BookCheckoutDaoImp implements BookCheckoutDao {
 
 	private static final String SELECT_CURRENT_CHECKEDOUTBOOKS_BYCHECKOUTID="select * from book_checkout where checkout_id=?";
 
+	
+	
+//	private static final String SELECT_CURRENT_CHECKEDOUTBOOKS_BYPATRONID = "SELECT * FROM book_checkout JOIN book ON book_checkout.isbn = book.isbn WHERE patron_id = ? AND returned = ?";
 	
 	//add update,delete and add functions later 
 	
@@ -272,7 +276,9 @@ public class BookCheckoutDaoImp implements BookCheckoutDao {
 				Date checkedout = rs.getDate("checkedout");
 				Date due_date = rs.getDate("due_date");
 				Date returned =rs.getDate("returned");
+//				Book book = (Book) rs.getObject("b");
 				
+//				list.add(new BookCheckout(checkout_id,patron_id,isbn,checkedout,due_date,returned,book));
 				list.add(new BookCheckout(checkout_id,patron_id,isbn,checkedout,due_date,returned));
 					
 			}

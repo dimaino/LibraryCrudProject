@@ -16,7 +16,7 @@
 	        		</div>
 	        		<div class="col-4 offset-4">
        		       		<div class="d-flex justify-content-between align-items-center" >
-    						<a href="<%= request.getContextPath() %>/PatronServlet/list">
+    						<a href="<%= request.getContextPath() %>/books/bookList">
 								<button class="btn btn-primary btn-sm">View All Books</button>
 							</a>
 							<a href="#">
@@ -46,27 +46,27 @@
 						</tr>
 					</thead>
 					<tbody>
+						<c:forEach var="bookcheckout" items="${checkoutBooks}">
 							<tr>
 								<td>
-									Harry Potter
+									<c:out value="${ bookcheckout.book.title }"/>
 								</td>
 								<td>
-									12-30-1999
+									<c:out value="${ bookcheckout.checkedout }"/>
 								</td>
 								<td>
-									01-06-2000
+									<c:out value="${ bookcheckout.due_date }"/>
 								</td>
 								<td>
-									True
+									TODO
 								</td>
-
-								
 								<td>
-									<a href="#">
-										<button class="btn btn-primary btn-sm">Return</button>
+									<a href="<%= request.getContextPath() %>/PatronServlet/return?isbn=<c:out value='${bookcheckout.isbn}' />">
+										<button class="btn btn-danger">Return</button>
 									</a>
 								</td>
 							</tr>
+						</c:forEach>
 					</tbody>
 				</table>
 	        </div>
