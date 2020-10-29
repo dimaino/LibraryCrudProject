@@ -17,6 +17,8 @@
 
 <div><center>Library Management System</center>
     <button onclick="location.href='<%= request.getContextPath() %>/signupPage'" type="button" class="btn btn-info" style="float: right; margin-top: -30px; margin-right: 50px; color: black">Sign Up</button>
-    <button onclick="location.href='<%= request.getContextPath() %>/signinPage'" type="button" class="btn btn-info" style="float: right;  margin-top: -30px; margin-right: 20px; color: black">Sign In</button>
+    <button onclick="location.href='<%= request.getContextPath() %>/signinPage'" type="button" class="btn btn-info" style="float: right;  margin-top: -30px; margin-right: 20px; color: black">Sign In</button>    
     </div></div>
   <br>
+  				
+	
