@@ -17,12 +17,12 @@
     <div class="col">
         <label for="title">Book Title</label>
       <input type="text" class="form-control" placeholder="Enter title of the book">
-    </div>
+    </div></div><br>
 
-    <div class="col">
+    <div>
     <label for="description">Book Description</label>
   <textarea class="form-control" id="description" name="description" rows="3" placeholder="Enter short description of the book"></textarea>
-</div></div>
+</div>
 </form>
 <br>
 
