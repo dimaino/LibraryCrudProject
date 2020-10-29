@@ -76,6 +76,9 @@ public class PatronServlet extends HttpServlet {
 			case "/signup":
 				signupPatron(request, response);
 				break;
+			case "/return":
+				returnBook(request, response);
+				break;
 			default:
 				goToPatronDashboard(request, response);
 				break;
@@ -90,14 +93,11 @@ public class PatronServlet extends HttpServlet {
 				Patron pat = (Patron) session.getAttribute("user");
 				
 				List<BookCheckout> checkoutBooks = checkoutDao.getAllCurrentCheckoutsByPatronId(pat.getPatron_id());
-				request.setAttribute("checkoutBooks", checkoutBooks);
 				
-//				List<Book> books = new ArrayList<>();
-//				
-//				for(BookCheckout bc: checkoutBooks) {
-//					books.add(bookDao.getBookByISBN(bc.getIsbn()));
-//				}
-//				request.setAttribute("books", books);
+				for(BookCheckout bc: checkoutBooks) {
+					bc.setBook(bookDao.getBookByISBN(bc.getIsbn()));
+				}
+				request.setAttribute("checkoutBooks", checkoutBooks);
 				
 				RequestDispatcher dispatch = request.getRequestDispatcher("/patronDashboard.jsp");
 				dispatch.forward(request, response);	
@@ -132,7 +132,21 @@ public class PatronServlet extends HttpServlet {
 	}
 	
 	private void returnBook(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("Return Book - Patron");
+		session = request.getSession();
 		
+		if(session != null) {
+			if(session.getAttribute("user") != null) {
+				String isbn = request.getParameter("isbn");
+				bookDao.returnBook(bookDao.getBookByISBN(isbn));
+				response.sendRedirect("/LibraryCrudProject/PatronServlet");
+				return;
+			} else {
+				response.sendRedirect("/LibraryCrudProject/AccessServlet/signinPage");
+			}
+		} else {
+			response.sendRedirect("/LibraryCrudProject/AccessServlet/signinPage");
+		}
 	}
 	
 	private void signupPatron(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

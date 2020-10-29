@@ -11,8 +11,10 @@ public class BookCheckout {
 	private Date checkedout;
 	private Date due_date;
 	private Date returned;
+	private boolean overdue;
 	
-	private Book b;
+	private Book book;
+	private Patron patron;
 	
 	public BookCheckout(int checkout_id, int patron_id, String isbn, Date checkedout, Date due_date, Date returned) {
 		super();
@@ -22,10 +24,12 @@ public class BookCheckout {
 		this.checkedout = checkedout;
 		this.due_date = due_date;
 		this.returned = returned;
-		this.b = null;
+		this.book = null;
+		this.patron = null;
+		this.overdue = false;
 	}
 
-	public BookCheckout(int checkout_id, int patron_id, String isbn, Date checkedout, Date due_date, Date returned, Book b) {
+	public BookCheckout(int checkout_id, int patron_id, String isbn, Date checkedout, Date due_date, Date returned, Book book, Patron patron, boolean overdue) {
 		super();
 		this.checkout_id = checkout_id;
 		this.patron_id = patron_id;
@@ -33,7 +37,9 @@ public class BookCheckout {
 		this.checkedout = checkedout;
 		this.due_date = due_date;
 		this.returned = returned;
-		this.b = b;
+		this.book = book;
+		this.patron = patron;
+		this.overdue = overdue;
 	}
 
 	public int getCheckout_id() {
@@ -83,13 +89,29 @@ public class BookCheckout {
 	public void setReturned(Date returned) {
 		this.returned = returned;
 	}
-
-	public Book getB() {
-		return b;
+	
+	public boolean isOverdue() {
+		return overdue;
 	}
 
-	public void setB(Book b) {
-		this.b = b;
+	public void setOverdue(boolean overdue) {
+		this.overdue = overdue;
+	}
+
+	public Book getBook() {
+		return book;
+	}
+
+	public void setBook(Book book) {
+		this.book = book;
+	}	
+
+	public Patron getPatron() {
+		return patron;
+	}
+
+	public void setPatron(Patron patron) {
+		this.patron = patron;
 	}
 
 	@Override
