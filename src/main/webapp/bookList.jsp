@@ -37,24 +37,29 @@
 						</tr>
 					</thead>
 					<tbody>
+						<c:forEach var="book" items="${allBooks}">
+					
 							<tr>
 								<td>
-									Harry Potter
+									<c:out value="${ book.title }"/>
 								</td>
 								<td>
-									12345asdfg
+									<c:out value="${ book.isbn }"/>
 								</td>
-			
 								<td>
-									False
+									<c:out value="${ book.rented }"/>
 								</td>
-
+				
 								<td>
+				
+									
 									<a href="#">
-										<button class="btn btn-primary btn-sm">View</button>
+										<button class="btn btn-danger">View</button>
 									</a>
 								</td>
 							</tr>
+					
+						</c:forEach>
 					</tbody>
 				</table>
 	        </div>

@@ -14,8 +14,8 @@
 	        			<h3>Book Actions</h3>
 	        		</div>
 	        		<div class="d-flex justify-content-between align-items-center" style="height:100%" >
-    						<a href="#">
-								<button class="btn btn-primary btn-sm">View All</button>
+    						<a href="<%= request.getContextPath()%>/books/bookList">
+								<button class="btn btn-primary btn-sm" >View All</button>
 							</a>
 							<a href="#">
 								<button class="btn btn-primary btn-sm">View Available</button>
@@ -76,7 +76,7 @@
  			  	<div class="row justify-content-center">
 		 			<h3>Book List</h3>
 			 	</div>
-	       		<table class="table table-striped">
+	 <!--       		<table class="table table-striped">
 					<thead>
 						<tr>
 							<th>Book Name</th>
@@ -108,7 +108,11 @@
 								</td>
 							</tr>
 					</tbody>
-				</table>
+				</table>--> 
+				
+				
+				<%@ include file= "bookListTemplate.jsp" %>
+				
 	        </div>
         </div>
     </div>
