@@ -21,7 +21,7 @@
     </div>
     <div class="col-sm-4"> 
     
-      <img src="https://upload.wikimedia.org/wikipedia/commons/3/34/Bookshelf_at_Yale.jpg" class="oval" alt="Image">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/3/34/Bookshelf_at_Yale.jpg" class="welcome-image" alt="Image">
     </div>
     <div class="col-sm-4"> 
 
