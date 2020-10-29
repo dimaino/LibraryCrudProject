@@ -131,8 +131,3 @@ create table librarian (
 
 insert into librarian(username, password) values('librarian1', '1234');
 insert into librarian(username, password) values('librarian2', '1234');
-
-
-
-
-
