@@ -175,10 +175,15 @@ private static final long serialVersionUID = 1L;
 		Librarian lib = null;
 		
 		if((pat = patronDao.getPatronLogin(username)) != null) {
-			session.setAttribute("user", pat);
-
-			System.out.println("User found in the database!");
-			response.sendRedirect("/LibraryCrudProject/PatronServlet");
+			if(!pat.isAccount_frozen()) {
+				session.setAttribute("user", pat);
+				System.out.println("User found in the database!");
+				response.sendRedirect("/LibraryCrudProject/PatronServlet");
+				return;
+			}
+			request.setAttribute("error", "This account needs to be unfrozen by a librarian.");
+			System.out.println("Frozen Account!");
+			goToSigninForm(request, response);
 			return;
 		} else if((lib = librarianDao.getLibrarianLogin(username, password)) != null) {
 			session.setAttribute("user", lib);

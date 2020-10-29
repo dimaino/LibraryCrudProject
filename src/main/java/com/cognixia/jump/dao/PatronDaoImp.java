@@ -84,7 +84,7 @@ public class PatronDaoImp implements PatronDao {
 			pstmt.setString(2, patron.getLast_name());
 			pstmt.setString(3, patron.getUsername());
 			pstmt.setString(4, patron.getPassword());
-			pstmt.setBoolean(5, false);
+			pstmt.setBoolean(5, true);
 
 			if (pstmt.executeUpdate() > 0) {
 				return true;
