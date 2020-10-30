@@ -20,7 +20,7 @@ import com.cognixia.jump.helper.Helper;
 import com.cognixia.jump.model.Librarian;
 import com.cognixia.jump.model.Patron;
 
-@WebServlet("/AccessServlet/*")
+@WebServlet("/Access/*")
 public class AccessServlet extends HttpServlet {
 	
 private static final long serialVersionUID = 1L;
@@ -52,16 +52,12 @@ private static final long serialVersionUID = 1L;
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getPathInfo();
-		String fullUrl = request.getRequestURI();
-		System.out.println(fullUrl);
-		System.out.println("AccessServlet");
+		
 		switch(action) {
 			case "/signupPage":
-				System.out.println("IN signupPage");
 				goToSignupForm(request, response);
 				break;
 			case "/signup":
-				System.out.println("IN signup");
 				signup(request, response);
 				break;
 			case "/signinPage":
@@ -71,7 +67,6 @@ private static final long serialVersionUID = 1L;
 				signin(request, response);
 				break;
 			case "/success":
-				System.out.println("IN SUCCESS");
 				successPage(request, response);
 				break;
 			case "/logout":
@@ -90,6 +85,7 @@ private static final long serialVersionUID = 1L;
 		String forward = "/signup.jsp";
 		String redirect = "/LibraryCrudProject";
 		session.setAttribute("url", request.getRequestURI());
+		System.out.println(request.getAttribute("javax.servlet.include.request_uri"));
 		
 		Helper.checkIfLoggedIn(forward, redirect, request, response, session);
 	}
@@ -102,6 +98,7 @@ private static final long serialVersionUID = 1L;
 		String redirect = "/LibraryCrudProject";
 		System.out.println(request.getRequestURI());
 		session.setAttribute("url", request.getRequestURI());
+		System.out.println(request.getAttribute("javax.servlet.include.request_uri"));
 		
 		Helper.checkIfLoggedIn(forward, redirect, request, response, session);
 	}
@@ -115,12 +112,6 @@ private static final long serialVersionUID = 1L;
 		String passConf = request.getParameter("passwordConfirmation");
 		
 		session = request.getSession(); 
-		
-		System.out.println(firstName);
-		System.out.println(lastName);
-		System.out.println(username);
-		System.out.println(password);
-		System.out.println(passConf);
 		
 		if(firstName.isEmpty() || lastName.isEmpty() || username.isEmpty() || password.isEmpty()) {
 			request.setAttribute("error", "All fields need to be filled out.");
@@ -142,7 +133,7 @@ private static final long serialVersionUID = 1L;
 				);
 				patronDao.addPatron(patron);
 				session.setAttribute("user", patron);
-				response.sendRedirect("/LibraryCrudProject/AccessServlet/success");
+				response.sendRedirect("/LibraryCrudProject/Access/success");
 				return;
 			}
 			System.out.println("This user already exists.");
@@ -178,33 +169,28 @@ private static final long serialVersionUID = 1L;
 			if(pat.getPassword().equals(password)) {
 				if(!pat.isAccount_frozen()) {
 					session.setAttribute("user", pat);
-					System.out.println("User found in the database!");
-					response.sendRedirect("/LibraryCrudProject/PatronServlet");
+					response.sendRedirect("/LibraryCrudProject/Patron");
 					return;
 				}
 				request.setAttribute("error", "This account needs to be unfrozen by a librarian.");
-				System.out.println("Frozen Account!");
 				goToSigninForm(request, response);
 				return;
 			}
-			request.setAttribute("error", "The password or username is incorrect for this user.");
-			System.out.println("Password incorrect - Patron");
+			request.setAttribute("error", "The username or password is incorrect.");
 			goToSigninForm(request, response);
 			return;
 		} else if((lib = librarianDao.getLibrarianLogin(username)) != null) {
 			if(lib.getPassword().equals(password)) {
 				session.setAttribute("user", lib);
 				System.out.println("Librarian found in the database!");
-				response.sendRedirect("/LibraryCrudProject/LibrarianServlet");
+				response.sendRedirect("/LibraryCrudProject/Librarian");
 				return;
 			}
-			request.setAttribute("error", "The password or username is incorrect for this user.");
-			System.out.println("Password incorrect - Librarian");
+			request.setAttribute("error", "The username or password is incorrect.");
 			goToSigninForm(request, response);
 			return;
 		} else {
 			request.setAttribute("error", "The username or password is incorrect.");
-			System.out.println("Incorrect username or password!");
 			goToSigninForm(request, response);
 		}
 		return;
@@ -233,12 +219,4 @@ private static final long serialVersionUID = 1L;
 		response.sendRedirect("/LibraryCrudProject");
 		return;
 	}
-	
-//	private void (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		session = request.getSession(); 
-//		if(session != null) {
-//			session.invalidate();
-//		}
-//		response.sendRedirect("/LibraryCrudProject");
-//	}
 }

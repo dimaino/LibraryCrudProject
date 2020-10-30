@@ -8,12 +8,12 @@
 </c:choose>
 <div id="access-page">
   <div id="form">
-    <form action="<%= request.getContextPath() %>/AccessServlet/signin" method="POST" id="login-form">
+    <form action="<%= request.getContextPath() %>/Access/signin" method="POST" id="login-form">
       <input type="text" name="username" placeholder="username" required/>
       <input type="password" name="password" placeholder="password" required/>
       <br>
       <button type="submit">login</button>
-      <p id="message">Not registered? <a href="<%= request.getContextPath() %>/AccessServlet/signupPage">Create an account</a></p>
+      <p id="message">Not registered? <a href="<%= request.getContextPath() %>/Access/signupPage">Create an account</a></p>
     </form>
   </div>
 </div>

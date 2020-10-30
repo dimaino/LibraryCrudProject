@@ -53,6 +53,8 @@ public class BookCheckoutDaoImp implements BookCheckoutDao {
 	
 	private static final String UPDATE_DUEDATE = "UPDATE book_checkout SET due_date=? WHERE checkout_id=?";
 	
+	private static final String UPDATE_RETURN_DATE = "UPDATE book_checkout SET returned=? WHERE checkout_id=?";
+	
 	
 //	private static final String SELECT_CURRENT_CHECKEDOUTBOOKS_BYPATRONID = "SELECT * FROM book_checkout JOIN book ON book_checkout.isbn = book.isbn WHERE patron_id = ? AND returned = ?";
 	
@@ -689,6 +691,25 @@ public static void main(String args[]) {
 	
 	
 	
+}
+
+@Override
+public boolean returnBook(Date date, int checkout_id) {
+	try(PreparedStatement pstmt = conn.prepareStatement(UPDATE_RETURN_DATE))
+	{
+		pstmt.setDate(1, date);
+		pstmt.setInt(2, checkout_id);
+		if(pstmt.executeUpdate()>0) {
+			System.out.println("The update on due date is successful !");
+			return true; 
+		}
+	}catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	System.out.println("Sorry the update was not successful");
+	return false;
 }
 
 

@@ -13,6 +13,7 @@
 <style><%@include file="css/style.css"%></style>
 <style><%@include file="css/access.css"%></style>
 <style><%@include file="css/index.css"%></style>
+
 </head>
 <body>
 	<div id="page-container">
@@ -31,12 +32,24 @@
 						</a>
 					</c:when>
 					<c:otherwise>
-						<a class="nav-link" href="<%= request.getContextPath() %>/PatronServlet">
-					    	<svg width="30px" height="30px" viewBox="0 0 16 16" class="bi bi-house-door-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-			  					<path d="M6.5 10.995V14.5a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5v-7a.5.5 0 0 1 .146-.354l6-6a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 .146.354v7a.5.5 0 0 1-.5.5h-4a.5.5 0 0 1-.5-.5V11c0-.25-.25-.5-.5-.5H7c-.25 0-.5.25-.5.495z"/>
-			  					<path fill-rule="evenodd" d="M13 2.5V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
-			  				</svg>
-						</a>
+						<c:choose>
+							<c:when test="${user.getClass().getName() == 'com.cognixia.jump.model.Librarian'}">
+								<a class="nav-link" href="<%= request.getContextPath() %>/Librarian">
+							    	<svg width="30px" height="30px" viewBox="0 0 16 16" class="bi bi-house-door-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+					  					<path d="M6.5 10.995V14.5a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5v-7a.5.5 0 0 1 .146-.354l6-6a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 .146.354v7a.5.5 0 0 1-.5.5h-4a.5.5 0 0 1-.5-.5V11c0-.25-.25-.5-.5-.5H7c-.25 0-.5.25-.5.495z"/>
+					  					<path fill-rule="evenodd" d="M13 2.5V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
+					  				</svg>
+								</a>
+							</c:when>
+							<c:otherwise>
+								<a class="nav-link" href="<%= request.getContextPath() %>/Patron">
+							    	<svg width="30px" height="30px" viewBox="0 0 16 16" class="bi bi-house-door-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+					  					<path d="M6.5 10.995V14.5a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5v-7a.5.5 0 0 1 .146-.354l6-6a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 .146.354v7a.5.5 0 0 1-.5.5h-4a.5.5 0 0 1-.5-.5V11c0-.25-.25-.5-.5-.5H7c-.25 0-.5.25-.5.495z"/>
+					  					<path fill-rule="evenodd" d="M13 2.5V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
+					  				</svg>
+								</a>
+							</c:otherwise>
+						</c:choose>
 					</c:otherwise>
 				</c:choose>
 			    <div class="navbar-collapse collapse justify-content-between align-items-center w-100" id="collapsingNavbar2">
@@ -46,21 +59,47 @@
 			        <ul class="nav navbar-nav flex-row justify-content-md-center justify-content-start flex-nowrap">
 			        	<c:choose>
 							<c:when test="${user == null}">
-				    				<c:choose>
-										<c:when test="${url != '/LibraryCrudProject/AccessServlet/signupPage'}">		
-				    						<li class="nav-item"><a class="nav-link" href="<%= request.getContextPath() %>/AccessServlet/signupPage">Sign up</a></li>
-				    					</c:when>
-										<c:otherwise>
-				    						<li class="nav-item"><a class="nav-link" href="<%= request.getContextPath() %>/AccessServlet/signinPage">Sign in</a></li> 
-										</c:otherwise>
-								</c:choose>
+				    				<% 
+									    if(request.getRequestURI().equals("/LibraryCrudProject/signup.jsp")) {    
+									%>
+									<li class="nav-item"><a class="nav-link" href="<%= request.getContextPath() %>/Access/signinPage">Sign in</a></li>
+									<% 
+									    } else if(request.getRequestURI().equals("/LibraryCrudProject/login.jsp")) {
+				    				%>
+									<li class="nav-item"><a class="nav-link" href="<%= request.getContextPath() %>/Access/signupPage">Sign up</a></li>
+									<% 
+									    } else {
+				    				%>
+				    				<li class="nav-item"><a class="nav-link" href="<%= request.getContextPath() %>/Access/signinPage">Sign in</a></li>
+				    				<li class="nav-item"><a class="nav-link" href="<%= request.getContextPath() %>/Access/signupPage">Sign up</a></li> 
+				    				<% 
+									    }
+				    				%>
 							</c:when>
 							<c:otherwise>
-							 		<li class="nav-item"><a class="nav-link" href="<%= request.getContextPath() %>/AccessServlet/logout">Logout</a></li> 
-								
+								<c:choose>
+									<c:when test="${user.getClass().getName() == 'com.cognixia.jump.model.Librarian'}">
+										<% 
+									    	if(!request.getRequestURI().equals("/LibraryCrudProject/librarianEdit.jsp")) {  
+										%>
+											<li class="nav-item"><a class="nav-link" href="<%= request.getContextPath() %>/Librarian/settings">Setting</a></li>
+										<% 
+									    	}
+				    					%>
+									</c:when>
+									<c:otherwise>
+										<% 
+									    	if(!request.getRequestURI().equals("/LibraryCrudProject/patronEdit.jsp")) {  
+										%>
+											<li class="nav-item"><a class="nav-link" href="<%= request.getContextPath() %>/Patron/settings">Setting</a></li>
+										<% 
+									    	}
+				    					%>
+									</c:otherwise>
+								</c:choose>
+							 	<li class="nav-item"><a class="nav-link" href="<%= request.getContextPath() %>/Access/logout">Logout</a></li> 
 							</c:otherwise>
 						</c:choose>
-			            
 			        </ul>
 			    </div>
 			</nav>

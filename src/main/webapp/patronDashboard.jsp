@@ -19,7 +19,7 @@
     						<a href="<%= request.getContextPath() %>/books/bookList">
 								<button class="btn btn-primary btn-sm">View All Books</button>
 							</a>
-							<a href="#">
+							<a href="<%= request.getContextPath() %>/Patron/history">
 								<button class="btn btn-primary btn-sm">My Book History</button>
 							</a>
 	        			</div>
@@ -58,10 +58,10 @@
 									<c:out value="${ bookcheckout.due_date }"/>
 								</td>
 								<td>
-									TODO
+									<c:out value="${ bookcheckout.overdue }"/>
 								</td>
 								<td>
-									<a href="<%= request.getContextPath() %>/PatronServlet/return?isbn=<c:out value='${bookcheckout.isbn}' />">
+									<a href="<%= request.getContextPath() %>/Patron/return?isbn=<c:out value='${bookcheckout.isbn}' />&checkout_id=<c:out value='${bookcheckout.checkout_id}' />">
 										<button class="btn btn-danger">Return</button>
 									</a>
 								</td>
