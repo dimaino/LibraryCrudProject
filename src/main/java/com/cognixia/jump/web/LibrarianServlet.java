@@ -31,6 +31,7 @@ import com.cognixia.jump.model.Patron;
 
 @WebServlet("/Librarian/*")
 public class LibrarianServlet extends HttpServlet {
+	
 	private static final long serialVersionUID = 1L;
 	
 	private BookCheckoutDaoImp bookCheckoutDaoImp;
@@ -100,37 +101,55 @@ public class LibrarianServlet extends HttpServlet {
 		}
 	}
 	
-	private void getAllCurrentBookCheckouts(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException {
+	// private void getAllCurrentBookCheckouts(HttpServletRequest request, HttpServletResponse response) 
+	// 		throws ServletException, IOException {
 
-		List<BookCheckout> currentCheckedOutBooks = bookCheckoutDaoImp.getAllCurrentBookCheckouts();
-		System.out.println("called getAllCurrentBookCheckouts in LibarianServlet, currentCheckedOutBooks = " + currentCheckedOutBooks);
+	// 	List<BookCheckout> currentCheckedOutBooks = checkoutDao.getAllCurrentBookCheckouts();
+	// 	System.out.println("called getAllCurrentBookCheckouts in LibarianServlet, currentCheckedOutBooks = " + currentCheckedOutBooks);
 		
-		request.setAttribute("currentCheckedOutBooks", currentCheckedOutBooks);
+	// 	request.setAttribute("currentCheckedOutBooks", currentCheckedOutBooks);
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("test-jsp-bookcheckout.jsp");
-		System.out.println("sent");
-		System.out.println("this is the request being sent"+request.getServerName()+request.getLocalPort());
-		System.out.println("this is the response being sent"+response.toString());
-		dispatcher.forward(request, response);
-		
-		
-	}
-	private void getAllPastBookCheckouts(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException {
-		List<BookCheckout> pastCheckedOutBooks = bookCheckoutDaoImp.getAllPastBookCheckouts();
-		System.out.println("called getAllPastBookCheckouts in LibarianServlet, pastCheckedOutBooks = " + pastCheckedOutBooks);
-		
-		request.setAttribute("currentCheckedOutBooks", pastCheckedOutBooks);
-		
-		//RequestDispatcher dispatcher = request.getRequestDispatcher("BookCheckout-list.jsp");
-		System.out.println("sent");
-		System.out.println("this is the request being sent"+request.getServerName()+request.getLocalPort());
-		System.out.println("this is the response being sent"+response.toString()); 
-		//dispatcher.forward(request, response);
+	// 	RequestDispatcher dispatcher = request.getRequestDispatcher("/bookcheckout-list.jsp");
+	// 	System.out.println("sent");
+	// 	System.out.println("this is the request being sent"+request.getServerName()+request.getLocalPort());
+	// 	System.out.println("this is the response being sent"+response.toString());
+	// 	dispatcher.forward(request, response);
 		
 		
-	}
+	// }
+	// private void getAllPastBookCheckouts(HttpServletRequest request, HttpServletResponse response) 
+	// 		throws ServletException, IOException {
+	// 	List<BookCheckout> pastCheckedOutBooks = checkoutDao.getAllPastBookCheckouts();
+	// 	System.out.println("called getAllPastBookCheckouts in LibarianServlet, pastCheckedOutBooks = " + pastCheckedOutBooks);
+		
+	// 	request.setAttribute("pastCheckedOutBooks", pastCheckedOutBooks);
+		
+	// 	RequestDispatcher dispatcher = request.getRequestDispatcher("/bookcheckout-list.jsp");
+	// 	System.out.println("sent");
+	// 	System.out.println("this is the request being sent"+request.getServerName()+request.getLocalPort());
+	// 	System.out.println("this is the response being sent"+response.toString()); 
+	// 	dispatcher.forward(request, response);
+		
+		
+	// }
+	
+	// private void updateBookCheckouts(HttpServletRequest request, HttpServletResponse response) 
+	// 		throws ServletException, IOException {
+	// 	int id = Integer.parseInt(request.getParameter("id"));
+	// 	String item = request.getParameter("item");
+	// 	int qty = Integer.parseInt(request.getParameter("qty"));
+	// 	String description = request.getParameter("description");
+		
+	// 	Product product = new Product(id, item, qty, description);
+		
+	// 	if ( productDao.updateProduct(product) ) {
+	// 		System.out.println("Updated product: " + product);
+	// 	}
+		
+	// 	response.sendRedirect("list");
+		
+		
+	// }
 	
 	
 	private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
