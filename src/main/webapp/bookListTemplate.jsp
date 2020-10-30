@@ -1,58 +1,57 @@
-  		<table class="table table-striped">
-					<thead>
-						<tr>
-							<th>Book Name</th>
-							<th>ISBN</th>
-							<th>Rented?</th>
-							<th></th>
-						</tr>
-					</thead>
-		<!--  			<tbody>
-						<c:forEach var="book" items="${allBooks}">
-					
-							<tr>
-								<td>
-									<c:out value="${ book.title }"/>
-								</td>
-								<td>
-									<c:out value="${ book.isbn }"/>
-								</td>
-								<td>
-									<c:out value="${ book.rented }"/>
-								</td>
-				
-								<td>
-				
-									
-									<a href="#">
-										<button class="btn btn-danger">View</button>
-									</a>
-								</td>
-							</tr>
-					
-						</c:forEach>
-					</tbody>-->
+	<div class="row book-row-titles">
+	    <div class="col-3">
+	      	Title
+      	</div>
+	    <div class="col-2">
+	       	ISBN
+	    </div>
+	    <div class="col-2">
+	       Due Date
+	    </div>
+	    <div class="col-2">
+	       Patron Username
+	    </div>		
+	</div>
+	<div class="row book-row">
+    		
+	   <br>
+		    <div class="col-3">
+		      	Harry Potter
+	      	</div>
+		    <div class="col-2">
+		       	1234567890
+		    </div>
+		    <div class="col-2">
+		       12-31-1999
+		    </div>
+		    <div class="col-2">
+		       TestUsername
+		    </div>	
+		        			
+		    <div class="col-3">
+        		<a href="#">
+					<button class="dash-btn">View Book</button>
+			     </a>
+			</div>
+	 </div>
+	<div class="row patron-row">
+   		    <div class="col-3">
+		      	Harry Potter
+	      	</div>
+		    <div class="col-2">
+		       	1234567890
+		    </div>
+		    <div class="col-2">
+		       12-31-1999
+		    </div>
+		    <div class="col-2">
+		       TestUsername
+		    </div>	
+		        			
+		    <div class="col-3">
+        		<a href="#">
+					<button class="dash-btn">View Book</button>
+			     </a>
+			</div>
+	 </div>			
 		
-					<tbody>
-							<tr>
-								<td>
-									Harry Potter
-								</td>
-								<td>
-									12345asdfg
-								</td>
-								<td>
-									false
-								</td>
-								<td>
-									12-30-1999
-								</td>
-								
-								<td>
-									<a href="#">
-										<button class="btn btn-primary btn-sm">View</button>
-									</a>
-								</td>
-							</tr>
-					</tbody>
-		</table>
