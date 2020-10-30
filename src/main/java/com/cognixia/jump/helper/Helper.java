@@ -11,8 +11,7 @@ import javax.servlet.http.HttpSession;
 public class Helper {
 
 	public static void checkIfLoggedIn(String forward, String redirect, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws ServletException, IOException {
-//		session = request.getSession();
-		System.out.println(session);
+		session = request.getSession();
 		
 		if(session != null) {
 			if(session.getAttribute("user") == null) {
@@ -27,6 +26,17 @@ public class Helper {
 			response.sendRedirect(redirect);
 			return;
 		}
+	}
+	
+	public static boolean userCheck(HttpServletRequest request, HttpSession session) throws ServletException, IOException {
+		session = request.getSession();
+		
+		if(session != null) {
+			if(session.getAttribute("user") != null) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 }

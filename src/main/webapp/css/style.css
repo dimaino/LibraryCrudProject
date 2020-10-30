@@ -140,3 +140,14 @@ a:hover{
 .patron-row{
 	box-shadow: 1px 1px 1px 1px var(--secondary-color);
 }
+#myInput {
+	display: block;
+    padding: .375rem .75rem;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+#patronHistoryTable {
+	margin-bottom: 100px;
+}
