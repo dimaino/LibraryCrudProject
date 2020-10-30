@@ -14,4 +14,5 @@ public interface BookDao {
 	
 	public boolean returnBook(Book book);
 	public boolean checkoutBook(Book book);
+	public Book getBookByTitle(String title);
 }

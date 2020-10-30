@@ -19,18 +19,38 @@
         </div>
         <c:choose>
 			<c:when test="${user.getClass().getName() == 'com.cognixia.jump.model.Librarian'}">
-        		<a href="edit?isbn=<c:out value='${ book.isbn }' />">
-					<button class="btn btn-primary">Edit</button>
-				</a>
+				<c:choose>
+					<c:when test="${book.rented == false}">
+						<div class="row">
+			        		<a href="edit?isbn=<c:out value='${ book.isbn }' />">
+								<button class="btn btn-primary">Edit</button>
+							</a>
+						</div>
+						<div class="row">
+							<a href="delete?isbn=<c:out value='${ book.isbn }' />">
+								<button class="btn btn-primary">Delete</button>
+							</a>
+						</div>
+					</c:when>
+					<c:otherwise>
+						<div class="row">
+							<a href="edit?isbn=<c:out value='${ book.isbn }' />">
+								<button class="btn btn-primary">Edit</button>
+							</a>
+						</div>
+					</c:otherwise>
+				</c:choose>
 			</c:when>
 			<c:otherwise>
 				<c:choose>
 					<c:when test="${book.rented == false}">
 						<c:choose>
 							<c:when test="${user.account_frozen == false}">
-								<a href="<%= request.getContextPath() %>/Patron/checkout?isbn=<c:out value='${ book.isbn }' />">
-									<button class="btn btn-primary">Checkout</button>
-								</a>
+								<div class="row">
+									<a href="<%= request.getContextPath() %>/Patron/checkout?isbn=<c:out value='${ book.isbn }' />">
+										<button class="btn btn-primary">Checkout</button>
+									</a>
+								</div>
 							</c:when>
 						</c:choose>
 					</c:when>

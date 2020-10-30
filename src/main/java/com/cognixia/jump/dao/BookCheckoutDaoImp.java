@@ -58,6 +58,8 @@ public class BookCheckoutDaoImp implements BookCheckoutDao {
 	
 	private static final String DELETE_CHECKOUT_BY_PATRON = "DELETE FROM book_checkout WHERE patron_id = ?";
 	
+	private static final String DELETE_CHECKOUT_BY_BOOK = "DELETE FROM book_checkout WHERE isbn = ?";
+	
 	
 //	private static final String SELECT_CURRENT_CHECKEDOUTBOOKS_BYPATRONID = "SELECT * FROM book_checkout JOIN book ON book_checkout.isbn = book.isbn WHERE patron_id = ? AND returned = ?";
 	
@@ -720,6 +722,21 @@ public boolean deleteCheckoutByPatron(int id) {
 	try(PreparedStatement pstmt = conn.prepareStatement(DELETE_CHECKOUT_BY_PATRON))
 	{
 		pstmt.setInt(1, id);
+		if(pstmt.executeUpdate() > 0) {
+			return true; 
+		}
+		
+	} catch (SQLException e) {
+		e.printStackTrace();
+	}
+	return false;
+}
+
+@Override
+public boolean deleteCheckoutByBook(String isbn) {
+	try(PreparedStatement pstmt = conn.prepareStatement(DELETE_CHECKOUT_BY_BOOK))
+	{
+		pstmt.setString(1, isbn);
 		if(pstmt.executeUpdate() > 0) {
 			return true; 
 		}

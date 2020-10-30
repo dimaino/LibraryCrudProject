@@ -23,8 +23,9 @@ public class BookDaoImp implements BookDao {
 		INSERT_BOOK("INSERT INTO book(isbn, title, descr, rented, added_to_library) VALUES(?, ?, ?, ?, ?)"),
 		DELETE_BOOK("DELETE FROM book WHERE isbn = ?"),
 		UPDATE_BOOK("UPDATE book SET title = ?, descr = ? WHERE isbn = ?"),
-		RETURN_BOOK("UPDATE book SET rented = false WHERE isbn = ?"), // NEEDS TO WORK WITH CHECKOUTBOOKS TABLE
-		CHECKOUT_BOOK("UPDATE book SET rented = true WHERE isbn = ?"); // NEEDS TO WORK WITH CHECKOUTBOOKS TABLE
+		RETURN_BOOK("UPDATE book SET rented = false WHERE isbn = ?"),
+		CHECKOUT_BOOK("UPDATE book SET rented = true WHERE isbn = ?"),
+		SELECT_BOOK_BY_TITLE("SELECT * FROM book WHERE title = ?");
 		
 		private final String statement;
 
@@ -171,6 +172,33 @@ public class BookDaoImp implements BookDao {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	@Override
+	public Book getBookByTitle(String title) {
+		Book book = null;
+
+		try (PreparedStatement pstmt = conn.prepareStatement(SqlStatements.SELECT_BOOK_BY_TITLE.getStatement())) {
+
+			pstmt.setString(1, title);
+
+			ResultSet rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+
+				book = new Book(
+						rs.getString("isbn"),
+						rs.getString("title"),
+						rs.getString("descr"),
+						rs.getBoolean("rented"),
+						rs.getDate("added_to_library")
+				);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return book;
 	}
 	
 

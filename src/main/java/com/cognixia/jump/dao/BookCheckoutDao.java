@@ -72,4 +72,6 @@ public interface BookCheckoutDao {
 	public boolean returnBook(java.sql.Date date, int checkout_id);
 
 	public boolean deleteCheckoutByPatron(int id);
+	
+	public boolean deleteCheckoutByBook(String isbn);
 }
