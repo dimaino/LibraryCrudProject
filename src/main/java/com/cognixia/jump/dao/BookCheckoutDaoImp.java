@@ -56,6 +56,9 @@ public class BookCheckoutDaoImp implements BookCheckoutDao {
 	private static final String UPDATE_RETURN_DATE = "UPDATE book_checkout SET returned=? WHERE checkout_id=?";
 	
 	
+	private static final String DELETE_CHECKOUT_BY_PATRON = "DELETE FROM book_checkout WHERE patron_id = ?";
+	
+	
 //	private static final String SELECT_CURRENT_CHECKEDOUTBOOKS_BYPATRONID = "SELECT * FROM book_checkout JOIN book ON book_checkout.isbn = book.isbn WHERE patron_id = ? AND returned = ?";
 	
 	//add update,delete and add functions later 
@@ -709,6 +712,21 @@ public boolean returnBook(Date date, int checkout_id) {
 		}
 		
 	System.out.println("Sorry the update was not successful");
+	return false;
+}
+
+@Override
+public boolean deleteCheckoutByPatron(int id) {
+	try(PreparedStatement pstmt = conn.prepareStatement(DELETE_CHECKOUT_BY_PATRON))
+	{
+		pstmt.setInt(1, id);
+		if(pstmt.executeUpdate() > 0) {
+			return true; 
+		}
+		
+	} catch (SQLException e) {
+		e.printStackTrace();
+	}
 	return false;
 }
 

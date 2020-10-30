@@ -28,7 +28,7 @@
                     <tr>
                         <td bgcolor="#ffffff" align="left" style="padding: 20px 30px 40px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
                             <p style="margin: 0;"><center>Account has been successfully created.</center></p>
-                            <p>You can find your log in information below. Waiting on a Librarian to give access to this account. Thank you for joining us!</p>
+                            <p>You can find your log in information below. Waiting on a Librarian to give access to checkout books on this account. Thank you for joining us!</p>
                         </td>
                     </tr>
                     <tr>

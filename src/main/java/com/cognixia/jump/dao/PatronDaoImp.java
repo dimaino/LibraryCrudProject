@@ -19,10 +19,11 @@ public class PatronDaoImp implements PatronDao {
 		SELECT_PATRON_BY_ID("SELECT * FROM patron WHERE patron_id = ?"),
 		INSERT_PATRON("INSERT INTO patron(first_name, last_name, username, password, account_frozen) VALUES(?, ?, ?, ?, ?)"),
 		DELETE_PATRON("DELETE FROM patron WHERE patron_id = ?"),
-		UPDATE_PATRON("UPDATE patron SET first_name = ?, last_name = ?, username = ? WHERE patron_id = ?"),
+		UPDATE_PATRON("UPDATE patron SET first_name = ?, last_name = ?, username = ?, password = ? WHERE patron_id = ?"),
 		APPROVE_PATRON("UPDATE patron SET account_frozen = false WHERE patron_id = ?"),
 		FREEZE_PATRON("UPDATE patron SET account_frozen = true WHERE patron_id = ?"),
-		SELECT_PATRON_BY_USERNAME("SELECT * FROM patron WHERE username = ?");
+		SELECT_PATRON_BY_USERNAME("SELECT * FROM patron WHERE username = ?"),
+		SELECT_FROZEN_PATRONS("SELECT * FROM patron WHERE account_frozen = true");
 		
 		private final String statement;
 
@@ -118,7 +119,8 @@ public class PatronDaoImp implements PatronDao {
 			pstmt.setString(1, patron.getFirst_name());
 			pstmt.setString(2, patron.getLast_name());
 			pstmt.setString(3, patron.getUsername());
-			pstmt.setInt(4, patron.getPatron_id());
+			pstmt.setString(4, patron.getPassword());
+			pstmt.setInt(5, patron.getPatron_id());
 
 			if (pstmt.executeUpdate() > 0) {
 				return true;
@@ -181,5 +183,23 @@ public class PatronDaoImp implements PatronDao {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@Override
+	public List<Patron> getFrozenPatrons() {
+		List<Patron> allPatrons = new ArrayList<>();
+
+		try (PreparedStatement pstmt = conn.prepareStatement(SqlStatements.SELECT_FROZEN_PATRONS.getStatement());
+				ResultSet rs = pstmt.executeQuery();) {
+
+			while (rs.next()) {
+
+				allPatrons.add(new Patron(rs.getInt("patron_id"), rs.getString("first_name"), rs.getString("last_name"),
+						rs.getString("username"), rs.getString("password"), rs.getBoolean("account_frozen")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return allPatrons;
 	}
 }

@@ -54,15 +54,12 @@ public class LibrarianServlet extends HttpServlet {
 	
 	@Override
 	public void destroy() {
-		
 		try {
 			ConnectionManager.getConnection().close();
 			session.invalidate();
 		} catch (SQLException e) {
-			
 			e.printStackTrace();
 		}
-		
 	}
     
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -70,59 +67,38 @@ public class LibrarianServlet extends HttpServlet {
 	}
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		String action = request.getServletPath();
-//		String fullUrl = request.getRequestURI();
-//		System.out.println("HELLLO THE SERVLET PATH IS "+action);
-//		System.out.println("HELLLO THE SERVLET FULL PATH IS "+fullUrl);
-		
-//		switch(action) {
-//		
-//			case("/listCurrentBookCheckouts"):
-//				getAllCurrentBookCheckouts(request,response);
-//			break;
-//			case("/listPastBookCheckouts"):
-//				getAllPastBookCheckouts(request,response);
-//			break;
-//			
-//				
-//			default:
-//				response.sendRedirect("/");
-//				break;
-				
-		
-		
-		
-		
-//		} //end of switch 
 		String action = request.getPathInfo();
 		if(action == null) {
 			action = request.getServletPath();
 		}
 		switch(action) {
-		case "/checkout":
-			System.out.println("checkout");
-//			checkoutBook(request, response);
-			break;
-		case "/return":
-//			returnBook(request, response);
-			break;
-		case "/history":
-//			goToMyBookHistory(request, response);
-			break;
-		case "/settings":
-			goToLibrarianSettings(request, response);
-			break;
-		case "/edit":
-			edit(request, response);
-			break;
-		default:
-//			goToPatronDashboard(request, response);
-			goToLibrarianDashboard(request, response);
-			break;
+			case "/checkout":
+				System.out.println("checkout");
+	
+				break;
+			case "/return":
+	
+				break;
+			case "/history":
+	
+				break;
+			case "/approve":
+				approve(request, response);
+				break;
+			case "/delete":
+				delete(request, response);
+				break;
+			case "/settings":
+				goToLibrarianSettings(request, response);
+				break;
+			case "/edit":
+				edit(request, response);
+				break;
+			default:
+				goToLibrarianDashboard(request, response);
+				break;
+		}
 	}
-		
-		
-	} //end of doGet()
 	
 	private void getAllCurrentBookCheckouts(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
@@ -157,8 +133,32 @@ public class LibrarianServlet extends HttpServlet {
 	}
 	
 	
+	private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("delete - Librarian");
+		session = request.getSession();
+		
+		if(Helper.userCheck(request, session)) {
+			checkoutDao.deleteCheckoutByPatron(Integer.parseInt(request.getParameter("patron_id")));
+			patronDao.deletePatron(Integer.parseInt(request.getParameter("patron_id")));
+			response.sendRedirect("/LibraryCrudProject/Librarian");
+			return;
+		}
+		response.sendRedirect("/LibraryCrudProject/Access/signinPage");
+		return;
+	}
 	
-
+	private void approve(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("approve - Librarian");
+		session = request.getSession();
+		
+		if(Helper.userCheck(request, session)) {
+			patronDao.approveAccount(patronDao.getPatronById(Integer.parseInt(request.getParameter("patron_id"))));
+			response.sendRedirect("/LibraryCrudProject/Librarian");
+			return;
+		}
+		response.sendRedirect("/LibraryCrudProject/Access/signinPage");
+		return;
+	}
 	
 	private void goToLibrarianDashboard(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("goToLibrarianDashboard - Librarian");
@@ -166,11 +166,12 @@ public class LibrarianServlet extends HttpServlet {
 		
 		if(Helper.userCheck(request, session)) {
 			Librarian lib = (Librarian) session.getAttribute("user");
-			
+			request.setAttribute("frozenPatrons", patronDao.getFrozenPatrons());
 			// TODO: Load in all infromation for the current page.
 			
 			RequestDispatcher dispatch = request.getRequestDispatcher("/librarianDashboard.jsp");
-			dispatch.forward(request, response);	
+			dispatch.forward(request, response);
+			return;
 		}
 		response.sendRedirect("/LibraryCrudProject/Access/signinPage");
 		return;
@@ -194,8 +195,35 @@ public class LibrarianServlet extends HttpServlet {
 		session = request.getSession();
 		
 		if(Helper.userCheck(request, session)) {
-			// TODO: Edit librarian INFO.
-			response.sendRedirect("/LibraryCrudProject/Librarian");
+			Librarian lib = (Librarian) session.getAttribute("user");
+
+			String username = request.getParameter("username");
+			String password = request.getParameter("password");
+			String passConf = request.getParameter("passwordConfirmation");
+			
+			if(username.isEmpty() || password.isEmpty()) {
+				request.setAttribute("error", "All fields need to be filled out.");
+				goToLibrarianSettings(request, response);
+				return;
+			}
+
+			lib.setUsername(username);
+			lib.setPassword(password);
+			
+			if(password.equals(passConf)) {
+				if(librarianDao.getLibrarianLogin(username) == null || username.equals(lib.getUsername())) {
+					librarianDao.updateLibrarian(lib);
+					session.setAttribute("user", lib);
+					response.sendRedirect("/LibraryCrudProject/Librarian");
+					return;
+				}
+				request.setAttribute("error", "This user already exists.");
+				goToLibrarianSettings(request, response);
+				return;
+			} else {
+				request.setAttribute("error", "The Passwords are not the same.");
+				goToLibrarianSettings(request, response);
+			}
 			return;
 		}
 		response.sendRedirect("/LibraryCrudProject/Access/signinPage");

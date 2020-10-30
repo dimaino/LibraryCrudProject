@@ -39,12 +39,14 @@ public class PatronServlet extends HttpServlet {
 	
 	private BookDao bookDao;
 	private BookCheckoutDao checkoutDao;
+	private PatronDao patronDao;
 	private HttpSession session;
 
 	@Override
     public void init() {
 		bookDao = new BookDaoImp();
 		checkoutDao = new BookCheckoutDaoImp();
+		patronDao = new PatronDaoImp();
     }
 	
 	@Override
@@ -68,7 +70,6 @@ public class PatronServlet extends HttpServlet {
 		}
 		switch(action) {
 			case "/checkout":
-				System.out.println("checkout");
 				checkoutBook(request, response);
 				break;
 			case "/return":
@@ -95,6 +96,11 @@ public class PatronServlet extends HttpServlet {
 		
 		if(Helper.userCheck(request, session)) {
 			Patron pat = (Patron) session.getAttribute("user");
+			
+			if(pat.isAccount_frozen()) {
+				request.setAttribute("error", "You need to be approved by the librarian before your account can checkout books.");
+			}
+			
 			List<BookCheckout> checkoutBooks = checkoutDao.getAllCurrentCheckoutsByPatronId(pat.getPatron_id());
 			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 			
@@ -103,9 +109,9 @@ public class PatronServlet extends HttpServlet {
 				String startDate = df.format(bc.getDue_date());
 				String endDate = df.format(new Date());
 
-				if(startDate.compareTo(endDate) > 0) {
+				if(startDate.compareTo(endDate) > 0 || startDate.compareTo(endDate) == 0) {
 			         bc.setOverdue(false);
-			      } else if(startDate.compareTo(endDate) < 0 || startDate.compareTo(endDate) == 0) {
+			      } else if(startDate.compareTo(endDate) < 0) {
 			         bc.setOverdue(true);
 			      }
 				
@@ -114,7 +120,8 @@ public class PatronServlet extends HttpServlet {
 			request.setAttribute("checkoutBooks", checkoutBooks);
 			
 			RequestDispatcher dispatch = request.getRequestDispatcher("/patronDashboard.jsp");
-			dispatch.forward(request, response);	
+			dispatch.forward(request, response);
+			return;
 		}
 		response.sendRedirect("/LibraryCrudProject/Access/signinPage");
 		return;
@@ -177,7 +184,6 @@ public class PatronServlet extends HttpServlet {
 		}
 		response.sendRedirect("/LibraryCrudProject/Access/signinPage");
 		return;
-		
 	}
 	
 	private void goToPatronSettings(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -200,9 +206,37 @@ public class PatronServlet extends HttpServlet {
 		if(Helper.userCheck(request, session)) {
 			Patron pat = (Patron) session.getAttribute("user");
 			
-			// TODO: Load in all information for the current page.
+			String firstName = request.getParameter("firstName");
+			String lastName = request.getParameter("lastName");
+			String username = request.getParameter("username");
+			String password = request.getParameter("password");
+			String passConf = request.getParameter("passwordConfirmation");
 			
-			response.sendRedirect("/LibraryCrudProject/Patron");
+			if(firstName.isEmpty() || lastName.isEmpty() || username.isEmpty() || password.isEmpty()) {
+				request.setAttribute("error", "All fields need to be filled out.");
+				goToPatronSettings(request, response);
+				return;
+			}
+
+			pat.setFirst_name(firstName);
+			pat.setLast_name(lastName);
+			pat.setUsername(username);
+			pat.setPassword(password);
+			
+			if(password.equals(passConf)) {
+				if((patronDao.getPatronLogin(username) == null) || username.equals(pat.getUsername())) {
+					patronDao.updatePatron(pat);
+					session.setAttribute("user", pat);
+					response.sendRedirect("/LibraryCrudProject/Patron");
+					return;
+				}
+				request.setAttribute("error", "This user already exists.");
+				goToPatronSettings(request, response);
+				return;
+			} else {
+				request.setAttribute("error", "The Passwords are not the same.");
+				goToPatronSettings(request, response);
+			}
 			return;
 		}
 		response.sendRedirect("/LibraryCrudProject/Access/signinPage");

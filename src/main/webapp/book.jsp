@@ -26,9 +26,13 @@
 			<c:otherwise>
 				<c:choose>
 					<c:when test="${book.rented == false}">
-						<a href="<%= request.getContextPath() %>/Patron/checkout?isbn=<c:out value='${ book.isbn }' />">
-							<button class="btn btn-primary">Checkout</button>
-						</a>
+						<c:choose>
+							<c:when test="${user.account_frozen == false}">
+								<a href="<%= request.getContextPath() %>/Patron/checkout?isbn=<c:out value='${ book.isbn }' />">
+									<button class="btn btn-primary">Checkout</button>
+								</a>
+							</c:when>
+						</c:choose>
 					</c:when>
 				</c:choose>
 			</c:otherwise>

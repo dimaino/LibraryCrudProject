@@ -4,6 +4,11 @@
   	<div class="row justify-content-center">
  		<h2>Patron Dashboard</h2>
  	</div>
+ 	<c:choose>
+		<c:when test="${error != null}">
+			<p id="access-error"><c:out value="${error}" /></p>
+		</c:when>
+	</c:choose>
  	<h1>Hello, <c:out value="${user.getFirst_name()} ${user.getLast_name()}" /></h1>
     <div class="row" style="background-color: grey">
         <div class="container" style="padding: 1em; box-shadow: 0.25em  0.25em 0.75em rgba(0,0,0,.25),

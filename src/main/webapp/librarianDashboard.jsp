@@ -46,25 +46,27 @@
 							</tr>
 						</thead>
 						<tbody>
+							<c:forEach var="patron" items="${frozenPatrons}">
 								<tr>
 									<td>
-										Test
+										<c:out value="${ patron.first_name }"/>
 									</td>
 									<td>
-										Testington
+										<c:out value="${ patron.last_name }"/>
 									</td>
 									<td>
-										testUsername
+										<c:out value="${ patron.username }"/>
 									</td>
 									<td>
-										<a href="#">
+										<a href="<%= request.getContextPath()%>/Librarian/approve?patron_id=<c:out value='${patron.patron_id}' />">
 											<button class="btn btn-primary btn-sm">Approve</button>
 										</a>
-										<a href="#">
+										<a href="<%= request.getContextPath()%>/Librarian/delete?patron_id=<c:out value='${patron.patron_id}' />">
 											<button class="btn btn-danger btn-sm">Delete</button>
 										</a>
 									</td>
 								</tr>
+							</c:forEach>
 						</tbody>
 					</table>
 	        	</div>
