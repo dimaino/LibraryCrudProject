@@ -15,7 +15,7 @@
       <input type="text" name="username" placeholder="username" required/>
       <input type="password" name="password" placeholder="password" required/>
       <input type="password" name="passwordConfirmation" placeholder="password confirmation" required/>
-      <button type="submit">Sign up</button>
+      <button class="dash-btn" type="submit">Sign up</button>
       <p id="message">Registered? <a href="<%= request.getContextPath() %>/Access/signinPage">Log in here</a></p>
     </form>
   </div>

@@ -1,6 +1,8 @@
 <%@ include file= "header.jsp" %>
 
-<div id="access">Edit Account</div>
+<div id="access">
+	<h2>Edit Account</h2>
+</div>
 <c:choose>
 	<c:when test="${error != null}">
 		<p id="access-error"><c:out value="${error}" /></p>
@@ -12,7 +14,7 @@
 	      <input type="text" name="username" placeholder="username" value="<c:out value='${user.username}'/>" required/>
 	      <input type="password" name="password" placeholder="password" value="<c:out value='${user.password}'/>" required/>
 	      <input type="password" name="passwordConfirmation" placeholder="password confirmation" value="<c:out value='${user.password}'/>" required/>
-	      <button type="submit">Save</button>
+	      <button class="dash-btn" type="submit">Save</button>
 	    </form>
 	</div>
 </div>	

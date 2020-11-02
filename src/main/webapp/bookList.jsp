@@ -4,7 +4,7 @@
   	<div class="row justify-content-center">
  		<h2>Book List</h2>
  	</div>
-	<div class="container" style="background-color: grey; padding: 1em;">
+	<div class="container dashboard">
 		<div class="row">
 				<div class="col-5 offset-1">
 					<form class="form-inline">
@@ -27,41 +27,41 @@
 		<div class="row">
 		<div class="col-10" style="margin-top: 1em; padding: 1em; margin-left: auto; margin-right: auto; background-color: white; box-shadow: 0.25em  0.25em 0.75em rgba(0,0,0,.25),
           									0.125em 0.125em 0.25em rgba(0,0,0,.15);">
- 			       		<table class="table table-striped">
-					<thead>
-						<tr>
-							<th>Book Name</th>
-							<th>ISBN</th>
-							<th>Rented?</th>
-							<th></th>
-						</tr>
-					</thead>
-					<tbody>
+ 			
+					<div class="row book-row-titles">
+				    	<div class="col-5">
+					      	Book Name
+				      	</div>
+					    <div class="col-2">
+					       	ISBN
+					    </div>
+					    <div class="col-2">
+					       Available
+					    </div>
+								
+					</div>
 						<c:forEach var="book" items="${allBooks}">
-					
-							<tr>
-								<td>
-									<c:out value="${ book.title }"/>
-								</td>
-								<td>
-									<c:out value="${ book.isbn }"/>
-								</td>
-								<td>
-									<c:out value="${ book.rented }"/>
-								</td>
-				
-								<td>
-				
-									
-									<a href="view?isbn=<c:out value='${ book.isbn }' />">
-										<button class="btn btn-primary">View</button>
-									</a>
-								</td>
-							</tr>
-					
+						
+							<div class="row book-row">
+		
+								    <div class="col-5">
+										<c:out value="${ book.title }"/>
+							      	</div>
+								    <div class="col-2">
+								       <c:out value="${ book.isbn }"/>
+								    </div>
+								    <div class="col-2">
+								       <c:out value="${ book.rented }"/>
+								    </div>
+												        			
+								    <div class="col-3">
+										<a href="view?isbn=<c:out value='${ book.isbn }' />">											
+											<button class="dash-btn">View Book</button>
+									     </a>
+									</div>
+							 </div>
+											
 						</c:forEach>
-					</tbody>
-				</table>
 	        </div>
         </div>
 	</div>

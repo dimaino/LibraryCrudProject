@@ -1,117 +1,83 @@
 <%@ include file= "header.jsp" %>
 
-<div class="container">
-  	<div class="row justify-content-center">
- 		<h2>Library Dashboard</h2>
- 	</div>
-    <div class="row" style="background-color: grey">
-        <div class="container" style="box-shadow: 0.25em  0.25em 0.75em rgba(0,0,0,.25),
-          									0.125em 0.125em 0.25em rgba(0,0,0,.15);">
+<div class="container col-12">
+        <div class="container dashboard">
+        	<h2 style="color: white">Librarian Dashboard</h2>
 	        <div class="row">
-	        	<div class="col-5" style="margin-top: 1em; margin-left: auto; margin-right: auto; background-color: white; box-shadow: 0.25em  0.25em 0.75em rgba(0,0,0,.25),
-          									0.125em 0.125em 0.25em rgba(0,0,0,.15);">
+	        	<div class="col-5 dashboard-card">
 	        		<div class="row justify-content-center">
-	        			<h3>Book Actions</h3>
+	        			<h3>Book Manager</h3>
 	        		</div>
-	        		<div class="d-flex justify-content-between align-items-center" style="height:100%" >
-    						<a href="<%= request.getContextPath()%>/books/bookList">
-								<button class="btn btn-primary btn-sm" >View All</button>
+	        		<div class="d-flex align-content-center" style="margin-top:2em; height:75%">
+	        		
+	        			<div class="row justify-content-around">
+	        				<a href="<%= request.getContextPath()%>/books/bookList">
+								<button class="dash-btn" >View All</button>
 							</a>
 							<a href="#">
-								<button class="btn btn-primary btn-sm">View Available</button>
+								<button class="dash-btn">View Available</button>
 							</a>
+					    </div>
+							<br>
+	        			<div class="row justify-content-around">
 							<a href="<%= request.getContextPath()%>/listCurrentBookCheckouts">
-								<button class="btn btn-primary btn-sm">View Checked Out</button>
+								<button class="dash-btn">View Checked Out</button>
 							</a>
 							<a href="<%= request.getContextPath()%>/books/new">
-								<button class="btn btn-danger btn-sm">Add Book</button>
+								<button class="dash-btn">Add New Book</button>
 							</a>
-	        		</div>
-	  
-
-	        	</div>
-	        	<div class="col-6" style="margin-top: 1em; margin-left: auto; margin-right: auto; background-color: white; box-shadow: 0.25em  0.25em 0.75em rgba(0,0,0,.25),
-          									0.125em 0.125em 0.25em rgba(0,0,0,.15);">
+	        			
+	        			</div>
+        			</div>
+	  			</div>
+	        	<div class="col-6 dashboard-card">
 	        		<div class="row justify-content-center">
-	        			<h3>Patron Appoval</h3>
-	        		</div>	        		
-	        		<table class="table table-striped">
-						<thead>
-							<tr>
-								<th>First Name</th>
-								<th>Last Name</th>
-								<th>Username</th>
-								<th></th>
-								<th></th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:forEach var="patron" items="${frozenPatrons}">
-								<tr>
-									<td>
-										<c:out value="${ patron.first_name }"/>
-									</td>
-									<td>
-										<c:out value="${ patron.last_name }"/>
-									</td>
-									<td>
-										<c:out value="${ patron.username }"/>
-									</td>
-									<td>
-										<a href="<%= request.getContextPath()%>/Librarian/approve?patron_id=<c:out value='${patron.patron_id}' />">
-											<button class="btn btn-primary btn-sm">Approve</button>
-										</a>
-										<a href="<%= request.getContextPath()%>/Librarian/delete?patron_id=<c:out value='${patron.patron_id}' />">
-											<button class="btn btn-danger btn-sm">Delete</button>
-										</a>
-									</td>
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
+	        			<h3>Patron Approvals</h3>
+	        		</div>
+       		
+       			    <div class="row patron-row-titles">
+ 			            <div class="col-3">
+	        				First Name
+		        		</div>
+		        		<div class="col-3">
+		        			Last Name
+		        		</div>
+		        		<div class="col-3">
+		        			Username
+		        		</div>
+       				</div>
+       				<c:forEach var="patron" items="${frozenPatrons}">
+       					<div class="row patron-row">
+							<div class="col-3">
+       							<c:out value="${ patron.first_name }"/>
+        					</div>
+				
+							<div class="col-3">
+       							<c:out value="${ patron.last_name }"/>
+        					</div>
+							<div class="col-3">
+       							<c:out value="${ patron.username }"/>
+        					</div>
+        					
+        			   		<div class="col-3">
+       							<a href="<%= request.getContextPath()%>/Librarian/approve?patron_id=<c:out value='${patron.patron_id}' />">
+									<button class="approve-btn">&#x1F5F8</button>
+								</a>
+       							<a href="<%= request.getContextPath()%>/Librarian/delete?patron_id=<c:out value='${patron.patron_id}' />">
+									<button class="deny-btn">X</button>
+								</a>
+																	
+        					</div>	
+						</div>
+					</c:forEach>
+    		
 	        	</div>
 	        </div>
         
-	
-		 	<div class="col-12" style="margin-top: 1em; margin-left: auto; margin-right: auto; background-color: white; box-shadow: 0.25em  0.25em 0.75em rgba(0,0,0,.25),
-          									0.125em 0.125em 0.25em rgba(0,0,0,.15);">
+		 	<div class="col-12 dashboard-card">
  			  	<div class="row justify-content-center">
-		 			<h3>Book List</h3>
+		 			<h3>Past Due Books</h3>
 			 	</div>
-	 <!--       		<table class="table table-striped">
-					<thead>
-						<tr>
-							<th>Book Name</th>
-							<th>ISBN</th>
-							<th>Rented?</th>
-							<th>Added To Library</th>
-							<th></th>
-						</tr>
-					</thead>
-					<tbody>
-							<tr>
-								<td>
-									Harry Potter
-								</td>
-								<td>
-									12345asdfg
-								</td>
-								<td>
-									false
-								</td>
-								<td>
-									12-30-1999
-								</td>
-								
-								<td>
-									<a href="#">
-										<button class="btn btn-primary btn-sm">View</button>
-									</a>
-								</td>
-							</tr>
-					</tbody>
-				</table>--> 
-				
 				
 				<%@ include file= "bookListTemplate.jsp" %>
 				
@@ -119,7 +85,7 @@
         </div>
     </div>
 
-</div>
+
 
 
 <%@ include file= "footer.jsp" %>

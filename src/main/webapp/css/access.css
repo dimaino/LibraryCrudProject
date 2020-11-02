@@ -1,7 +1,5 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto:300);
 
 #access {
-	font-family: "Roboto", sans-serif;
 	font-size: 90px;
 	text-align: center;
 	font-weight: bold;
@@ -32,24 +30,8 @@
   padding: 15px;
   box-sizing: border-box;
 }
-#form button {
-  font-family: "Roboto", sans-serif;
-  text-transform: uppercase;
-  outline: 0;
-  background: blue;
-  width: 100%;
-  border: 0;
-  padding: 15px;
-  color: #FFFFFF;
-  font-size: 16px;
-  -webkit-transition: all 0.3 ease;
-  transition: all 0.3 ease;
-  cursor: pointer;
-  margin-top: 50px;
-}
-#form button:hover,#form button:active,#form button:focus {
-  background: MediumBlue;
-}
+
+
 
 #form #message {
   margin: 15px 0 0;

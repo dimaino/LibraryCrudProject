@@ -1,3 +1,6 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+
+
 :root{
 
     --bs: 0.25em  0.25em 0.75em rgba(0,0,0,.25),
@@ -12,6 +15,8 @@
 
 html, body {
 	background-color: white;
+	font-family: "Roboto", sans-serif;
+	
 }
 
 #page-container {
@@ -48,9 +53,11 @@ html, body {
 	padding: 1em;
 	background-color: var(--secondary-color);
 	box-shadow: var(--bs);
-	
+	text-align: center;
 }
 
+.book-form,
+.book-card,
 .dashboard-card{
 	margin-top: 1em; 
 	margin-left: auto; 
@@ -58,8 +65,21 @@ html, body {
 	background-color: white; 
 	box-shadow: var(--bs);
 	padding: 1em;
+	height: 15em;
 }
 
+.book-card{
+	padding: 3em;
+	min-height: 20em;
+	text-align: left;
+}
+
+.book-form{
+	min-height: 20em;
+}
+
+.edit-btn,
+.delete-btn,
 .dash-btn{
   margin: 0 .5em;
   width: 10em;
@@ -84,6 +104,7 @@ html, body {
   	font-size: 1em;
 }
 
+.edit-btn,
 .approve-btn{
   background-color: rgb(112, 228, 112);
   box-shadow: 0px 3.5px 0px 0px rgb(80, 185, 66);
@@ -93,15 +114,18 @@ a:hover{
 	text-decoration: none;
 }
 
+.edit-btn:hover,
 .approve-btn:hover{
   background-color: rgb(80, 185, 66);
 }
 
+.delete-btn,
 .deny-btn{
 	background-color: rgb(228, 91, 91);
 	box-shadow: 0px 3.5px 0px 0px rgb(240, 44, 44);
 }
 
+.delete-btn:hover,
 .deny-btn:hover{
   background-color: rgb(240, 44, 44);
 }
@@ -111,6 +135,8 @@ a:hover{
   color: var(--darker-primary);
 }
 
+.delete-btn:active,
+.edit-btn:active,
 .dash-btn:active, 
 .deny:active,
 .apporve:active {
