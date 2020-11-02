@@ -60,6 +60,7 @@ public class BookCheckoutDaoImp implements BookCheckoutDao {
 	
 	private static final String DELETE_CHECKOUT_BY_BOOK = "DELETE FROM book_checkout WHERE isbn = ?";
 	
+	private static final String PAST_DUEBOOOKS="SELECT * FROM book_checkout WHERE `due_date` < CURDATE() and returned is null";
 	
 //	private static final String SELECT_CURRENT_CHECKEDOUTBOOKS_BYPATRONID = "SELECT * FROM book_checkout JOIN book ON book_checkout.isbn = book.isbn WHERE patron_id = ? AND returned = ?";
 	
@@ -193,6 +194,61 @@ public class BookCheckoutDaoImp implements BookCheckoutDao {
 		
 		
 		return list;
+	}
+	
+	@Override
+	public List<BookCheckout> getPastDueBooks() {
+		List<BookCheckout> list = new ArrayList<BookCheckout>();
+		ResultSet rs = null;
+		
+		try(PreparedStatement pstmt = conn.prepareStatement(PAST_DUEBOOOKS))
+		{
+			
+		//java.sql.Date date = java.sql.Date.valueOf("2020-10-27");
+		
+		
+		LocalDate locDate = LocalDate.now();
+		//converting today's local date to SQL date for passing it as param in prepared statement 
+		java.sql.Date SQLDate = java.sql.Date.valueOf(locDate);
+		//pstmt.setDate(1, SQLDate);
+		
+
+		
+		rs = pstmt.executeQuery();
+			
+			
+			/*
+			 *  private int checkout_id;
+				private int patron_id;
+				private String isbn;
+				private Date checkedout;
+				private Date due_date;
+				private Date returned;
+			 */
+			while(rs.next()) {
+				
+				int checkout_id = rs.getInt("checkout_id");
+				int patron_id = rs.getInt("patron_id");
+				String isbn =rs.getString("isbn");
+				Date checkedout = rs.getDate("checkedout");
+				Date due_date = rs.getDate("due_date");
+				Date returned =rs.getDate("returned");
+				
+				list.add(new BookCheckout(checkout_id,patron_id,isbn,checkedout,due_date,returned));
+					
+			}
+			
+			
+			
+			}
+		catch(SQLException e){
+			e.printStackTrace();
+			
+		}
+		
+		
+		return list;
+		
 	}
 
 	@Override
@@ -653,7 +709,9 @@ public static void main(String args[]) {
 	//List<BookCheckout> list = obj.getAllPastCheckoutsByPatronId(1); //function 6 test 
 	
 	//List<BookCheckout> list = obj.getAllCurrentBookCheckoutsByISBN("1234567893"); //function 7 test 
-	List<BookCheckout> list = obj.getAllPastBookCheckoutsByISBN("1234567893"); //function 8 test 
+	//List<BookCheckout> list = obj.getAllPastBookCheckouts(); //function 8 test 
+	
+	List<BookCheckout> list = obj.getPastDueBooks();
 	
 	
 	for(int i=0; i<list.size(); i++) {
@@ -673,7 +731,7 @@ public static void main(String args[]) {
 		private Date checkedout;
 		private Date due_date;
 		private Date returned;
-		*/
+		
 	 
 	BookCheckout bcheck = new BookCheckout(1,"1234567895",java.sql.Date.valueOf("2020-10-27"),java.sql.Date.valueOf("2020-11-04"));
 	//obj.addBookCheckout(bcheck);
@@ -694,7 +752,7 @@ public static void main(String args[]) {
 	System.out.println("The due date id is "+book.getDue_date());
 	System.out.println("The returned date is "+book.getReturned());
 	
-	
+	*/
 	
 }
 
@@ -746,6 +804,8 @@ public boolean deleteCheckoutByBook(String isbn) {
 	}
 	return false;
 }
+
+
 
 
 

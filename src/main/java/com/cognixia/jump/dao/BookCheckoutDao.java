@@ -74,4 +74,7 @@ public interface BookCheckoutDao {
 	public boolean deleteCheckoutByPatron(int id);
 	
 	public boolean deleteCheckoutByBook(String isbn);
+
+
+	public List<BookCheckout> getPastDueBooks();
 }
