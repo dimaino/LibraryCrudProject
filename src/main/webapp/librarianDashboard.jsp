@@ -14,7 +14,7 @@
 	        				<a href="<%= request.getContextPath()%>/books/bookList">
 								<button class="dash-btn" >View All</button>
 							</a>
-							<a href="#">
+							<a href="http://localhost:8080/LibraryCrudProject/Librarian/available">
 								<button class="dash-btn">View Available</button>
 							</a>
 					    </div>

@@ -127,7 +127,7 @@ public class LibrarianServlet extends HttpServlet {
 		
 	 	request.setAttribute("pastCheckedOutBooks", pastCheckedOutBooks);
 		
-	 	RequestDispatcher dispatcher = request.getRequestDispatcher("/bookcheckout-list.jsp");
+	 	RequestDispatcher dispatcher = request.getRequestDispatcher("/availableBooks.jsp");
 	 	System.out.println("sent");
 	 	System.out.println("this is the request being sent"+request.getServerName()+request.getLocalPort());
 	 	System.out.println("this is the response being sent"+response.toString()); 

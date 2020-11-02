@@ -654,7 +654,7 @@ public static void main(String args[]) {
 	//List<BookCheckout> list = obj.getAllPastCheckoutsByPatronId(1); //function 6 test 
 	
 	//List<BookCheckout> list = obj.getAllCurrentBookCheckoutsByISBN("1234567893"); //function 7 test 
-	List<BookCheckout> list = obj.getAllPastBookCheckoutsByISBN("1234567893"); //function 8 test 
+	List<BookCheckout> list = obj.getAllPastBookCheckouts(); //function 8 test 
 	
 	
 	for(int i=0; i<list.size(); i++) {
