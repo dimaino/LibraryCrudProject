@@ -2,7 +2,7 @@
 
 <div class="container">
   	<div class="row justify-content-center">
- 		<h2>Available Books List</h2>
+ 		<h2>Past Due Books List</h2>
  	</div>
 	<div class="container dashboard">
 		
@@ -29,9 +29,11 @@
 					    <div class="col-2">
 					       Returned Date
 					    </div>
+					    
+					    
 								
 					</div>
-						<c:forEach var="book" items="${pastCheckedOutBooks}">
+						<c:forEach var="book" items="${pastDue}">
 						
 							<div class="row book-row">
 		
@@ -52,8 +54,7 @@
 								    </div>
 								     <div class="col-2">
 								       <c:out value="${ book.returned }"/>
-								    </div>
-												        			
+								    </div>				        			
 							 </div>
 											
 						</c:forEach>

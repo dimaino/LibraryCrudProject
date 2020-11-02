@@ -26,6 +26,11 @@
 							<a href="<%= request.getContextPath()%>/books/new">
 								<button class="dash-btn">Add New Book</button>
 							</a>
+							<!-- 
+							<a href="http://localhost:8080/LibraryCrudProject/Librarian/pastdue">
+								<button class="dash-btn">Past Due Books</button>
+							</a>
+							 -->
 	        			
 	        			</div>
         			</div>
@@ -73,15 +78,25 @@
     		
 	        	</div>
 	        </div>
-        
+          
 		 	<div class="col-12 dashboard-card">
+		 		<br>
+		 		<br> 
+ 			  
  			  	<div class="row justify-content-center">
-		 			<h3>Past Due Books</h3>
+ 			  	 
+ 			  	 
+ 			  	<br> 
+ 			  	<a href="http://localhost:8080/LibraryCrudProject/Librarian/pastdue">
+ 			  	<button class="btn btn-primary btn-lg btn-block">Past Due Books List</button>
+ 			  	</a>
+		 			
 			 	</div>
 				
-				<%@ include file= "bookListTemplate.jsp" %>
+				<%-- <%@ include file= "pastDueBooks.jsp" %> --%>
 				
 	        </div>
+	        
         </div>
     </div>
 

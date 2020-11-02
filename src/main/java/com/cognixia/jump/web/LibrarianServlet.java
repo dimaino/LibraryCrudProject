@@ -80,6 +80,9 @@ public class LibrarianServlet extends HttpServlet {
 			case "/available":
 				getAvailable(request,response);
 				break;
+			case "/pastdue":
+				getPastDue(request,response);
+				break;
 			case "/return":
 	
 				break;
@@ -134,6 +137,23 @@ public class LibrarianServlet extends HttpServlet {
 	 	dispatcher.forward(request, response);
 		
 		
+	 }
+	 
+	 private void getPastDue(HttpServletRequest request, HttpServletResponse response) 
+		 		throws ServletException, IOException {
+		 
+		 List<BookCheckout> pastDue = checkoutDao.getPastDueBooks();
+		
+
+		request.setAttribute("pastDue", pastDue);
+
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/pastDueBooks.jsp");
+		System.out.println("sent");
+		System.out.println("this is the request being sent" + request.getServerName() + request.getLocalPort());
+		System.out.println("this is the response being sent" + response.toString());
+		dispatcher.forward(request, response);
+		 
+		 
 	 }
 
 	
