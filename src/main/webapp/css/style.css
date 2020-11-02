@@ -3,7 +3,7 @@
 
 :root{
 
-    --bs: 0.25em  0.25em 0.75em rgba(0,0,0,.25),
+  --bs: 0.25em  0.25em 0.75em rgba(0,0,0,.25),
           0.125em 0.125em 0.25em rgba(0,0,0,.15);
 
   --light-primary: #E6E6FA;
@@ -176,4 +176,16 @@ a:hover{
 
 #patronHistoryTable {
 	margin-bottom: 100px;
+}
+
+.nav-item,
+.nav-link{ 
+	color: white;
+	font-weight: bold;
+}
+
+.nav-link a:hover,
+.nav-item a:hover{
+	font-weight: bold;
+	color: var(--secondary-color);
 }

@@ -162,14 +162,13 @@ public class BookServlet extends HttpServlet {
 			
 			book.setTitle(title);
 			book.setDescr(descr);
-			
-			if(bookDao.getBookByTitle(title) == null) {
+			try {
 				bookDao.updateBook(book);
-				response.sendRedirect("bookList");
-				return;
+			}catch(Exception e) {
+				request.setAttribute("error", "This Title already exists.");
+				gotoEditBookForm(request, response);
 			}
-			request.setAttribute("error", "This Title already exists.");
-			gotoEditBookForm(request, response);
+			
 			return;
 		}
 		response.sendRedirect("/LibraryCrudProject/Access/signinPage");

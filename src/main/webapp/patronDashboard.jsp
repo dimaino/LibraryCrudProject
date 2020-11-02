@@ -10,10 +10,11 @@
     <div class="container dashboard">
     	<div class="row">
     
-	        <div class="dashboard-card col-10">
+	        <div class="dashboard-card col-10" style="max-height: 10em">
 	       		<div class="row justify-content-center">
         			<h3>Book Manager</h3>
         		</div>
+        		<br>
        			<div class="row justify-content-around">
   						<a href="<%= request.getContextPath() %>/books/bookList">
 						<button class="dash-btn">View All Books</button>
@@ -59,7 +60,7 @@
 							    </div>
 							    <div class="col-2">
 									<a href="<%= request.getContextPath() %>/Patron/return?isbn=<c:out value='${bookcheckout.isbn}' />&checkout_id=<c:out value='${bookcheckout.checkout_id}' />">
-										<button class="dash-btn">Return</button>
+										<button class="edit-btn">Return</button>
 									</a>							    
 								</div>
 							
