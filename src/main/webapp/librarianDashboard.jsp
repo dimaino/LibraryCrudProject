@@ -20,7 +20,7 @@
 					    </div>
 							<br>
 	        			<div class="row justify-content-around">
-							<a href="<%= request.getContextPath()%>/listCurrentBookCheckouts">
+							<a href="http://localhost:8080/LibraryCrudProject/Librarian/checkout">
 								<button class="dash-btn">View Checked Out</button>
 							</a>
 							<a href="<%= request.getContextPath()%>/books/new">

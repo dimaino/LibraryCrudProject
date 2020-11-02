@@ -60,6 +60,7 @@ public class BookCheckoutDaoImp implements BookCheckoutDao {
 	
 	private static final String DELETE_CHECKOUT_BY_BOOK = "DELETE FROM book_checkout WHERE isbn = ?";
 	
+	private static final //String ALL_AVAILABLE_BOOKS="SELECT * FROM book_checkout WHERE returned IS n";
 	
 //	private static final String SELECT_CURRENT_CHECKEDOUTBOOKS_BYPATRONID = "SELECT * FROM book_checkout JOIN book ON book_checkout.isbn = book.isbn WHERE patron_id = ? AND returned = ?";
 	
