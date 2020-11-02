@@ -18,7 +18,7 @@
 <body>
 	<div id="page-container">
 		<div id="content-wrap">
-			<nav class="navbar navbar-light navbar-expand-md bg-light justify-content-md-center justify-content-start">
+			<nav class="navbar navbar-expand-md justify-content-md-center justify-content-start" style="background-color: #c1c1ec">
 			    <button class="navbar-toggler ml-1" type="button" data-toggle="collapse" data-target="#collapsingNavbar2">
 			        <span class="navbar-toggler-icon"></span>
 			    </button>
@@ -54,7 +54,7 @@
 				</c:choose>
 			    <div class="navbar-collapse collapse justify-content-between align-items-center w-100" id="collapsingNavbar2">
 			        <ul class="navbar-nav mx-auto text-md-center text-left">
-			            <li class="nav-item my-auto" id="nav-center">Library Management System</li>
+			            <li class="nav-item my-auto" id="nav-center"><h1 style="color: white">Library Management System</h1></li>
 			        </ul>
 			        <ul class="nav navbar-nav flex-row justify-content-md-center justify-content-start flex-nowrap">
 			        	<c:choose>
@@ -82,7 +82,7 @@
 										<% 
 									    	if(!request.getRequestURI().equals("/LibraryCrudProject/librarianEdit.jsp")) {  
 										%>
-											<li class="nav-item"><a class="nav-link" href="<%= request.getContextPath() %>/Librarian/settings">Setting</a></li>
+											<li class="nav-item"><a class="nav-link" href="<%= request.getContextPath() %>/Librarian/settings">Settings</a></li>
 										<% 
 									    	}
 				    					%>
@@ -91,7 +91,7 @@
 										<% 
 									    	if(!request.getRequestURI().equals("/LibraryCrudProject/patronEdit.jsp")) {  
 										%>
-											<li class="nav-item"><a class="nav-link" href="<%= request.getContextPath() %>/Patron/settings">Setting</a></li>
+											<li class="nav-item"><a class="nav-link" href="<%= request.getContextPath() %>/Patron/settings">Settings</a></li>
 										<% 
 									    	}
 				    					%>

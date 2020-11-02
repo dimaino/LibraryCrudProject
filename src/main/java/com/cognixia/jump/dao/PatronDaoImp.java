@@ -23,7 +23,7 @@ public class PatronDaoImp implements PatronDao {
 		APPROVE_PATRON("UPDATE patron SET account_frozen = false WHERE patron_id = ?"),
 		FREEZE_PATRON("UPDATE patron SET account_frozen = true WHERE patron_id = ?"),
 		SELECT_PATRON_BY_USERNAME("SELECT * FROM patron WHERE username = ?"),
-		SELECT_FROZEN_PATRONS("SELECT * FROM patron WHERE account_frozen = true");
+		SELECT_FROZEN_PATRONS("SELECT * FROM patron WHERE account_frozen = true LIMIT 2");
 		
 		private final String statement;
 
